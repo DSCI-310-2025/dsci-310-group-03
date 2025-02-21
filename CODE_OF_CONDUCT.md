@@ -25,7 +25,7 @@ Examples of unacceptable behavior by any of the group members include:
 - Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Consequences of Unacceptable Behavior
-Individuals who are asked to stop any inappropriate behavior are expected to comply immediately. Violations of the Code of Conduct will first be addressed within the group. If the issue cannot be resolved internally, it will be escalated to the DSCI310 teaching team for further action.
+Individuals who are asked to stop any inappropriate behavior are expected to comply immediately. Violations of the Code of Conduct will first be addressed within the project group. If the issue cannot be resolved internally, it will be escalated to the DSCI310 teaching team for further action.
 
 ## Attribution
 This Code of Conduct is derived from the [DSCI 100 Code of Conduct](https://github.com/UBC-DSCI/dsci-100-student/blob/master/CODE_OF_CONDUCT.md) and the [Tidyverse Code of Conduct](https://github.com/tidyverse/tidyverse.org/blob/master/CODE_OF_CONDUCT.md)
