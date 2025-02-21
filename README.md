@@ -9,3 +9,4 @@ Authors: Mengen Liu, Roy Oh, Kim Tan Palanca, Nicolas Zhu
 ## List of Dependencies
 
 ## Licenses
+- MIT License
