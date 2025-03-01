@@ -26,6 +26,6 @@ COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/rstudio/
 COPY data/ /home/rstudio/data/
 COPY data_analysis.ipynb /home/rstudio/data_analysis.ipynb
 
-EXPOSE 88888
+EXPOSE 8888
 
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
