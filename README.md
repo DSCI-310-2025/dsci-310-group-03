@@ -3,7 +3,7 @@
 Authors: Mengen Liu, Roy Oh, Kim Tan Palanca, Nicolas Zhu
 
 ## Project Summary
-This project aims to evaluate the performances of two machine learning models (i.e., logistic regression and random forest)  in predicting maternal health risk. These models are developed to determine whether a pregnant woman is of low, medium, or high risk based on various health indicators. The models were assessed using classification metrics such as accuracy, precision, recall, F1-score, and AUC-ROC curve. 
+This project aims to evaluate the performances of two machine learning models (i.e., logistic regression and random forest)  in predicting maternal health risk. These models are developed to determine whether a pregnant woman is of low, medium, or high risk based on various health indicators. The models were assessed using their respective accuracies in correctly predicting health risk status. 
 
 The [dataset](https://archive.ics.uci.edu/dataset/863/maternal+health+risk) used in this project is originally sources from UC Irvine Machine Learning Respository, consisting of 1014 observations and 7 features related to patient physiological measurements. 
 
@@ -33,6 +33,10 @@ To replicate this analysis, kindly follow the instructions below:
     - corrplot (version = 0.95)
     - nnet (version = 7.3-20)
     - caret (version = 7.0-1)
+    - randomForest (version = 7.4-1.2)
+    - broom (version = 1.0.7)
+    - gridExtra (version = 2.3)
+    - vip (version = 0.4.1)
 
 ## Licenses
 - This project is licensed under the MIT License. Kindly refer to [LISCENE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.
