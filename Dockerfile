@@ -1,12 +1,17 @@
-FROM rocker/tidyverse:4.4.3
+FROM rocker/tidyverse:4.4.2
 
 RUN apt-get update && apt-get install -y \
-    python3-pip && \
-    pip3 install --no-cache-dir \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxt6 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --no-cache-dir \
     jupyterlab \
     notebook \
-    jupyter && \
-    R -e "install.packages('IRkernel'); IRkernel::installspec(user=FALSE)"
+    jupyter
 
 WORKDIR /home/rstudio
 
