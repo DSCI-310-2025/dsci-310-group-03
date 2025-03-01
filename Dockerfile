@@ -1,16 +1,15 @@
 FROM rocker/tidyverse:4.4.2
 
+WORKDIR /home/rstudio
+
 RUN apt-get update && apt-get install -y \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxt6 \
     python3 \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir jupyter jupyterlab
+RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN python3 -m pip install --no-cache-dir jupyter jupyterlab
+
 RUN R -e "install.packages('IRkernel', repos = 'https://cran.rstudio.com/')"
 RUN R -e "IRkernel::installspec(user=FALSE)"
 
