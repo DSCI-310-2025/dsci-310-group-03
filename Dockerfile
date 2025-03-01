@@ -18,7 +18,10 @@ COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/jovyan/
 COPY data/ /home/jovyan/data/
 COPY data_analysis.ipynb /home/jovyan/data_analysis.ipynb
 
-RUN chown -R jovyan:users /home/jovyan
+USER root
+RUN fix-permissions /home/jovyan
+
+USER jovyan
 
 EXPOSE 8888
 
