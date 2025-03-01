@@ -27,10 +27,12 @@ To replicate this analysis, kindly follow the instructions below:
 ## List of Dependencies
 - R version: 4.4.2
 - R packages:
-    - tidyverse
-    - corrplot
-    - nnet
-    - caret
+    - tidyverse (version = 2.0.0)
+    - ggplot2 (version = 3.5.1)
+    - lattice (version = 0.22-6)
+    - corrplot (version = 0.95)
+    - nnet (version = 7.3-20)
+    - caret (version = 7.0-1)
 
 ## Licenses
 - This project is licensed under the MIT License. Kindly refer to [LISCENE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.
