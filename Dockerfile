@@ -1,13 +1,6 @@
-FROM rocker/rstudio:4.4.2
+FROM jupyter/r-notebook
 
-WORKDIR /home/rstudio
-
-RUN apt-get update && apt-get install -y \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxt6 \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /home/jovyan
 
 RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.com/')"
 RUN R -e "remotes::install_version('tidyverse', version = '2.0.0', repos = 'https://cran.rstudio.com/')"
@@ -21,10 +14,11 @@ RUN R -e "remotes::install_version('broom', version = '1.0.7', repos = 'https://
 RUN R -e "remotes::install_version('gridExtra', version = '2.3', repos = 'https://cran.rstudio.com/')"
 RUN R -e "remotes::install_version('vip', version = '0.4.1', repos = 'https://cran.rstudio.com/')"
 
-COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/rstudio/
-COPY data/ /home/rstudio/data/
-COPY data_analysis.ipynb /home/rstudio/data_analysis.ipynb
+COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/jovyan/
+COPY data/ /home/jovyan/data/
+COPY data_analysis.ipynb /home/jovyan/data_analysis.ipynb
 
-EXPOSE 8787
+EXPOSE 8888
 
-CMD ["/init"]
+CMD ["start-notebook.sh", "--NotebookApp.token=''"]
+
