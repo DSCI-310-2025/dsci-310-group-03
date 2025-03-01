@@ -14,7 +14,7 @@ To replicate this analysis, kindly follow the instructions below:
     - Install [Docker](https://www.docker.com/get-started/)
     - Build the docker image
     ``` 
-    docker build -t dsci-310-group-03-docker
+    docker build -t dsci-310-group-03-docker .
     ```
     - Run the docker container
     ```
