@@ -18,7 +18,7 @@ To replicate this analysis, kindly follow the instructions below:
     ```
     - Run the docker container
     ```
-    docker run -rm -it -p 8888:8888 dsci-310-group-03-docker
+    docker run --rm -it -p 8888:8888 dsci-310-group-03-docker
 3. Run analysis
     - Open your preferred web browser to access Jupyter Lab via http://localhost:8888
     - Open the file `data_analysis.ipynb`
