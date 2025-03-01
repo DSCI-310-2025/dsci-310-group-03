@@ -18,6 +18,8 @@ COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/jovyan/
 COPY data/ /home/jovyan/data/
 COPY data_analysis.ipynb /home/jovyan/data_analysis.ipynb
 
+RUN chown -R jovyan:users /home/jovyan
+
 EXPOSE 8888
 
 CMD ["start-notebook.sh", "--NotebookApp.token=''"]
