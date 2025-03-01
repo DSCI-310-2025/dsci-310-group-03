@@ -105,9 +105,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This project aims to use machine learning to predict maternal health risk based on key physiological factors. Maternal health are a major concern in healthcare. Hence, early risk assessment is crucial for the welfare of both the mother and child. By leveraging structured data from the Maternal Health Risk Dataset, we trained and evaluated machine learning models to classify maternal health risk levels into three different classes: low, mid, and high risk categories.</p>
-<p>The dataset contains 1,014 records with features such as age, blood pressures, blood sugar levels, body temperature and heart rate. Our goal will be to determine whether machine learning algorithms could accurately predict risk levels based on these physiological markers and aid medical experts.</p>
-<p>We will carry out exploratory data analysis, feature engineering and preprocessing to the dataset and then apply multiple classification models including logistic regression, decision trees,___________, We might also carry out hyperparameter optimization and finally evaluate their accuracy and other classification metrics such as precision, recall, F1-score, and AUC-ROC.</p>
+<p>This project aims to use machine learning to predict maternal health risk based on key physiological factors by comparing the performances between two models. Maternal health are a major concern in healthcare. Hence, early risk assessment is crucial for the welfare of both the mother and child. By leveraging structured data from the Maternal Health Risk Dataset, we trained and evaluated machine learning models to classify maternal health risk levels into three different classes: low, mid, and high risk.</p>
+<p>The dataset contains 1,014 records with features such as age, blood pressures, blood sugar levels, body temperature and heart rate. Our goal will be to determine whether machine learning algorithms could accurately predict risk levels based on these physiological markers. We will first conduct an exploratory data analysis before building any of the models. Once we have trained the models, they will be evaluated through classification metrics such as precision, recall, F1-score, and AUC-ROC.</p>
 <hr>
 </section>
 <section id="introduction" class="level2">
@@ -134,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Each model will be evaluated using various metrics such as accuracy, precision, recall, F1-score, and AUC-ROC to compare their relative performance in maternal health risk prediction.</p>
 <section id="importing-relevant-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="importing-relevant-libraries">Importing Relevant Libraries</h3>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
@@ -172,10 +171,11 @@ Traceback:
 <section id="reading-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="reading-the-data">Reading the Data</h3>
 <p>The <a href="https://archive.ics.uci.edu/dataset/863/maternal+health+risk">dataset</a> was downloaded from the UC Irvine Machine Learning Repository and uploaded to the project’s repository from which it is read for the analysis.</p>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Maternal Health Risk Data Set.csv"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 1: Sample of Raw Data</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1014 Columns: 7
 ── Column specification ────────────────────────────────────────────────────────
@@ -185,6 +185,11 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 1: Sample of Raw Data
+</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -272,8 +277,8 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 <section id="wrangling-and-cleaning-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="wrangling-and-cleaning-the-data">Wrangling and Cleaning the Data</h3>
 <p>From the cell below, we find that there are no NA or null values in our dataset.</p>
-<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">feature =</span> <span class="fu">names</span>(data), <span class="at">na =</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">feature =</span> <span class="fu">names</span>(data), <span class="at">na =</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A tibble: 7 × 2</caption>
@@ -321,9 +326,9 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 </div>
 </div>
 <p>The code below shows that the features <code>Age</code>, <code>SystolicBP</code>, <code>DiastolicBP</code>, <code>BS</code>, <code>BodyTemp</code>, and <code>HeartRate</code> are numeric variables, while <code>RiskLevel</code> is currently a character variable. Moreover, there are three categories under <code>RiskLevel</code>: high risk, mid risk, and low risk</p>
-<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(RiskLevel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(RiskLevel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>spc_tbl_ [1,014 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
  $ Age        : num [1:1014] 25 35 29 30 35 23 23 35 32 42 ...
@@ -371,11 +376,18 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 </div>
 </div>
 <p>Given the three distinct categories under the target feature, we will modify <code>RiskLevel</code> to a factor variable to appropriately reflect its categorical nature in further analysis.</p>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">RiskLevel =</span> <span class="fu">factor</span>(RiskLevel, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low risk"</span>, <span class="st">"mid risk"</span>, <span class="st">"high risk"</span>)))</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">RiskLevel =</span> <span class="fu">factor</span>(RiskLevel, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low risk"</span>, <span class="st">"mid risk"</span>, <span class="st">"high risk"</span>)))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 2: Sample of Clean Data</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 2: Sample of Clean Data
+</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A tibble: 6 × 7</caption>
@@ -463,8 +475,8 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 <h3 class="anchored" data-anchor-id="eda">EDA</h3>
 <section id="summary-statistics" class="level4">
 <h4 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h4>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>      Age          SystolicBP     DiastolicBP           BS        
  Min.   :10.00   Min.   : 70.0   Min.   : 49.00   Min.   : 6.000  
@@ -487,13 +499,16 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 <h4 class="anchored" data-anchor-id="distributions">Distributions</h4>
 <p>Since age is an important factor in maternal health, we visualize the age distribution by risk level. From the visualization, high risk individuals have a higher median age around 35 years old. Additionally, the interquartile range indicates that the high risk group has more variation in age. We observe some outliers in the low and mid risk groups. Based on the visualization, older aged individuals seem more associated with maternal health risks.</p>
 <p>For further exploration, we plot for each variable.</p>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> RiskLevel, <span class="at">y =</span> Age, <span class="at">fill =</span> RiskLevel)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Distribution by Risk Level"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Risk Level"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Age"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> RiskLevel, <span class="at">y =</span> Age, <span class="at">fill =</span> RiskLevel)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Figure 1: Age Distribution by Risk Level"</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Risk Level"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -507,20 +522,24 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 <h4 class="anchored" data-anchor-id="correlation-matrix">Correlation Matrix</h4>
 <p>All of the variables have a positive correlation with RiskLevel, indicating that increases in these variables generally correspond to a higher maternal health risk. BS (Blood Sugar level) has the strongest correlation of 0.57, suggesting it is likely to be the most influential factor. We thought age would have a stronger correlation with RiskLevel, however, systolic blood pressure and diastolic blood pressure seems to have a stronger correlation with RiskLevel than age.</p>
 <p>These findings may be a possible reason for the outliers observed above. Younger individuals with high blood pressures or sugar levels may be classified into higher risk levels. This indicates the importance of other factors.</p>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Temporarily change RiskLevel to numerical values (3 = high risk, 2 = mid risk, 1 = low risk)</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_numeric <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RiskLevel_numeric =</span> <span class="fu">as.numeric</span>(RiskLevel)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>RiskLevel) <span class="co"># remove the original factor variable</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(data_numeric)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="fl">6.5</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"ellipse"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"number"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">number.cex =</span> <span class="fl">1.5</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Temporarily change RiskLevel to numerical values (3 = high risk, 2 = mid risk, 1 = low risk)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data_numeric <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RiskLevel_numeric =</span> <span class="fu">as.numeric</span>(RiskLevel)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>RiskLevel)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(data_numeric)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="fl">6.5</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"ellipse"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Figure 2b: Correlation Matrix"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"number"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">number.cex =</span> <span class="fl">1.5</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Figure 2b: Correlation Matrix Values"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -543,55 +562,85 @@ dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
 <h2 class="anchored" data-anchor-id="classification-model-building">Classification Model Building</h2>
 <section id="traintest-splitting" class="level3">
 <h3 class="anchored" data-anchor-id="traintest-splitting">Train/Test Splitting</h3>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an 80% training and 20% testing split</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(data_clean<span class="sc">$</span>RiskLevel, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data into training and testing sets</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data_clean[train_index, ]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> data_clean[<span class="sc">-</span>train_index, ]</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train_data)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>ERROR: Error in createDataPartition(data_clean$RiskLevel, p = 0.8, list = FALSE): could not find function "createDataPartition"
-
-Error in createDataPartition(data_clean$RiskLevel, p = 0.8, list = FALSE): could not find function "createDataPartition"
-Traceback:</code></pre>
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an 80% training and 20% testing split</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(data_clean<span class="sc">$</span>RiskLevel, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data into training and testing sets</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data_clean[train_index, ]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> data_clean[<span class="sc">-</span>train_index, ]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train_data)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class="list-inline"><li>812</li><li>7</li></ol>
+</div>
+<div class="cell-output cell-output-display">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class="list-inline"><li>202</li><li>7</li></ol>
 </div>
 </div>
 </section>
 <section id="multinomial-logistic-regression" class="level3">
 <h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic regression</h3>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>multinom_logistic <span class="ot">&lt;-</span> <span class="fu">multinom</span>(RiskLevel <span class="sc">~</span> ., <span class="at">data =</span> train_data)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multinom_logistic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>ERROR: Error in eval(expr, p): object 'train_data' not found
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>multinom_logistic <span class="ot">&lt;-</span> <span class="fu">multinom</span>(RiskLevel <span class="sc">~</span> ., <span class="at">data =</span> train_data)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multinom_logistic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  24 (14 variable)
+initial  value 892.073178 
+iter  10 value 731.740084
+iter  20 value 651.225981
+iter  30 value 618.926897
+iter  40 value 618.918226
+iter  50 value 618.750052
+final  value 618.748469 
+converged</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Call:
+multinom(formula = RiskLevel ~ ., data = train_data)
 
-Error in eval(expr, p): object 'train_data' not found
-Traceback:
+Coefficients:
+          (Intercept)          Age SystolicBP DiastolicBP        BS  BodyTemp
+mid risk    -51.45546 -0.003381834 0.06674558 -0.04451933 0.3392350 0.4283579
+high risk  -102.69736 -0.022647143 0.07188222  0.01910705 0.7532347 0.8265515
+           HeartRate
+mid risk  0.03462081
+high risk 0.07073450
 
-1. multinom(RiskLevel ~ ., data = train_data)
-2. eval.parent(m)
-3. eval(expr, p)
-4. eval(expr, p)
-5. stats::model.frame(formula = RiskLevel ~ ., data = train_data)
-6. model.frame.default(formula = RiskLevel ~ ., data = train_data)
-7. is.data.frame(data)</code></pre>
+Std. Errors:
+           (Intercept)         Age  SystolicBP DiastolicBP         BS
+mid risk  0.0001767925 0.007943439 0.008090217  0.01065454 0.08396116
+high risk 0.0001486341 0.012346374 0.011886866  0.01509759 0.08939212
+            BodyTemp  HeartRate
+mid risk  0.01314433 0.01283421
+high risk 0.01702684 0.01643069
+
+Residual Deviance: 1237.497 
+AIC: 1265.497 </code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>test_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predict probabilities</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>test_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"probs"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_predictions)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_probabilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predict probabilities</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>test_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"probs"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_predictions)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 3: Predicted Probabilities for Test</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_probabilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <style>
 .list-inline {list-style: none; margin:0; padding: 0}
@@ -611,6 +660,11 @@ Traceback:
     </style>
     <ol class="list-inline"><li>'low risk'</li><li>'mid risk'</li><li>'high risk'</li></ol>
 </details>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 3: Predicted Probabilities for Test
+</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -664,28 +718,34 @@ Traceback:
 </table>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(test_predictions), <span class="fu">as.factor</span>(test_data<span class="sc">$</span>RiskLevel))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(conf_matrix<span class="sc">$</span>table)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cm_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"True"</span>, <span class="st">"Predicted"</span>, <span class="st">"Frequency"</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> cm_table <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(True) <span class="sc">%&gt;%</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Percentage =</span> <span class="fu">round</span>((Frequency <span class="sc">/</span> <span class="fu">sum</span>(Frequency)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))  <span class="co"># Round to 1 decimal place</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>cm_table</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>cm_visualization <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cm_table, <span class="fu">aes</span>(<span class="at">x =</span> True, <span class="at">y =</span> Predicted, <span class="at">fill =</span> Frequency)) <span class="sc">+</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  <span class="co"># Draw tiles</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(Frequency, <span class="st">"</span><span class="sc">\n</span><span class="st">("</span>, Percentage, <span class="st">"%)"</span>)), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span>  <span class="co"># Add labels</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span>  <span class="co"># Color scale</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Confusion Matrix with Frequencies and Percentages"</span>,</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"True Label"</span>, <span class="at">y =</span> <span class="st">"Predicted Label"</span>) <span class="sc">+</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>cm_visualization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(test_predictions), <span class="fu">as.factor</span>(test_data<span class="sc">$</span>RiskLevel))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(conf_matrix<span class="sc">$</span>table)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cm_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"True"</span>, <span class="st">"Predicted"</span>, <span class="st">"Frequency"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> cm_table <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(True) <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Percentage =</span> <span class="fu">round</span>((Frequency <span class="sc">/</span> <span class="fu">sum</span>(Frequency)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))  <span class="co"># Round to 1 decimal place</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 4: Confusion Matrix</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>cm_table</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>cm_visualization <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cm_table, <span class="fu">aes</span>(<span class="at">x =</span> True, <span class="at">y =</span> Predicted, <span class="at">fill =</span> Frequency)) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  <span class="co"># Draw tiles</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(Frequency, <span class="st">"</span><span class="sc">\n</span><span class="st">("</span>, Percentage, <span class="st">"%)"</span>)), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span>  <span class="co"># Add labels</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span>  <span class="co"># Color scale</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Figure 3: Confusion Matrix with Frequencies and Percentages"</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"True Label"</span>, <span class="at">y =</span> <span class="st">"Predicted Label"</span>) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>cm_visualization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 4: Confusion Matrix
+</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A grouped_df: 9 × 4</caption>
@@ -764,7 +824,7 @@ Traceback:
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="data_analysis_files/figure-html/cell-13-output-2.png" width="420" height="420" class="figure-img"></p>
+<p><img src="data_analysis_files/figure-html/cell-13-output-3.png" width="390" height="360" class="figure-img"></p>
 </figure>
 </div>
 </div>
