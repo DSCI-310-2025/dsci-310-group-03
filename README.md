@@ -7,6 +7,10 @@ This project aims to evaluate the performances of two machine learning models (i
 
 The [dataset](https://archive.ics.uci.edu/dataset/863/maternal+health+risk) used in this project is originally sources from UC Irvine Machine Learning Respository, consisting of 1014 observations and 7 features related to patient physiological measurements. 
 
+## Project Question
+
+**Can we accurately predict the maternal health risk category (low, medium, or high) based on physiological indicators such as blood sugar levels, body temperature, and other relevant health factors?**
+
 ## Project Findings
 
 ### Best Performing Model
