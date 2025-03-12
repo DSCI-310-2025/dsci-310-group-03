@@ -7,6 +7,27 @@ This project aims to evaluate the performances of two machine learning models (i
 
 The [dataset](https://archive.ics.uci.edu/dataset/863/maternal+health+risk) used in this project is originally sources from UC Irvine Machine Learning Respository, consisting of 1014 observations and 7 features related to patient physiological measurements. 
 
+## Project Findings
+
+### Best Performing Model
+Our analysis indicates that maternal health risk during pregnancy can be predicted with an accuracy of 81.19% using a random forest decision tree model it is our most effective predictive approach. The second best model, multinomial logistic regression, achieved a 57.92% accuracy. Both outperforms the the baseline of 40.10%, which is good. These results align with past research, where random forests tend to perform better due to their ability to capture complex, non-linear relationships.
+
+### Key Findings & Interpretation
+While random forests provide strong predictive accuracy, multinomial logistic regression allows for greater interpretability by estimating how individual factors contribute to maternal health risk. The strongest predictors of high risk versus low risk were:
+
+- Body temperature: A 1-unit increase was associated with a 2.29 $\times$ increase in the odds of being in the high-risk category.
+- Blood sugar levels: A 1-unit increase increased the odds by 2.13 $\times$.
+
+Both models performed best at identifying high-risk cases, suggesting that extreme maternal health risks are more distinguishable based on physiological indicators.
+
+### Implications & Limitations
+These findings suggest that body temperature and blood sugar levels are important factors in assessing maternal health risk. However, this does not imply causality—lowering these values may not necessarily reduce risk. Additionally, the analysis is limited by the number of variables included. Other important factors such as age, pre-existing health conditions, lifestyle, and socioeconomic factors could further refine the models and improve generalizability.
+
+## What This Means
+- These insights could help guide future maternal health research to explore whether these risk factors play a causal role in maternal health outcomes.
+- Further studies could investigate whether certain age groups or demographics are more vulnerable to these risk factors.
+- Medical professionals should not use this analysis for clinical decision-making, but it may inform broader research on maternal health monitoring.
+
 ## How to Run the Data Analysis
 To replicate this analysis, kindly follow the instructions below:
 1. Clone repository
