@@ -5,7 +5,7 @@
 and saves the model summary and exponentiated coefficients.
 
 Usage:
-  train_model.R --train=<train_file> --output=<output_file> --summary=<summary_file>
+  06-train_mlr_model.R --train=<train_file> --output=<output_file> --summary=<summary_file>
 
 Options:
   --train=<train_file>     Path to the training dataset (CSV).

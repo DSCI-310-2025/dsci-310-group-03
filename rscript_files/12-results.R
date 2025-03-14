@@ -8,7 +8,7 @@
 saves the results as CSV files, and generates visualization plots.
 
 Usage:
-  confusion_matrices.R --test=<test_file> --base_preds=<base_preds> --lr_preds=<lr_preds> --rf_preds=<rf_preds> --output=<output_dir>
+  12-results.R --test=<test_file> --base_preds=<base_preds> --lr_preds=<lr_preds> --rf_preds=<rf_preds> --output=<output_dir>
 
 Options:
   --test=<test_file>      Path to the test dataset (CSV).

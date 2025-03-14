@@ -4,7 +4,7 @@
 "This script loads and cleans the dataset.
 
 Usage:
-  load_clean_data.R --input=<input_file> --output=<output_file>
+  02-clean_data.R --input=<input_file> --output=<output_file>
 
 Options:
   --input=<input_file>    Path to raw data CSV file
