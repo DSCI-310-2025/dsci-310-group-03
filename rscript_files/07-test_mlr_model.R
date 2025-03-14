@@ -6,7 +6,7 @@ and evaluates it on a test dataset by predicting class labels
 and probabilities.
 
 Usage:
-  test_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
+  07-test_mlr_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
 
 Options:
   --test=<test_file>      Path to the test dataset (CSV).
@@ -28,11 +28,12 @@ main <- function(test_file, model_file, output_dir) {
 
   summary_df <- tidy(multinom_model, exp = FALSE) %>%
     rename(Term = term, Estimate = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)
-  write_csv(summary_df, output_dir)
+  write_csv(summary_df, file.path(output_dir, "mlr_model_summary.csv"))
 
-  codds_ratios_df <- tidy(multinom_model, exp = TRUE) %>%
+
+  odds_ratios_df <- tidy(multinom_model, exp = TRUE) %>%
     rename(Term = term, OddsRatio = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)
-  write_csv(odds_ratios_df, output_dir)
+  write_csv(odds_ratios_df, file.path(output_dir, "mlr_model_odds_ratios.csv"))
 
   test_predictions <- predict(multinom_model, newdata = test_data)
 
@@ -42,7 +43,21 @@ main <- function(test_file, model_file, output_dir) {
     mutate(Predicted_Class = test_predictions, ID = 1:nrow(test_data)) %>% 
     relocate(ID, Predicted_Class)
 
-  write_csv(test_probabilities_df, output_dir)
+  write_csv(test_probabilities_df, file.path(output_dir, "mlr_test_probabilities.csv"))
+
+  mlr_accuracy <- mean(test_predictions == test_data$RiskLevel)
+  message("MLR Model Accuracy: ", round(mlr_accuracy, 7))
+
+  accuracy_df <- data.frame(Model = "Multinomial Logistic Regression", Accuracy = round(mlr_accuracy, 7))
+
+  accuracy_file <- file.path(output_dir, "model_accuracies.csv")
+  
+  if (!file.exists(accuracy_file)) {
+      write_csv(accuracy_df, accuracy_file)
+  } else {
+      write_csv(accuracy_df, accuracy_file, append = TRUE)
+  }
+
 }
 
 # Run the main function

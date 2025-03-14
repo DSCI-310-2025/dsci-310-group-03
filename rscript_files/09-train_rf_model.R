@@ -5,7 +5,7 @@
 and saves the trained model as an RDS file.
 
 Usage:
-  train_random_forest.R --train=<train_file> --output=<model_file>
+  09-train_rf_model.R --train=<train_file> --output=<model_file>
 
 Options:
   --train=<train_file>   Path to the training dataset (CSV file).

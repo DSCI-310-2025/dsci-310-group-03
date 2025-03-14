@@ -4,8 +4,7 @@
 "This script performs EDA and generates visualizations.
 
 Usage:
-  eda_visualization.R --input=<input_file> --output=<output_dir>
-  generate_corrplot.R --input=<input_file> --output=<output_dir>
+  03-eda.R --input=<input_file> --output=<output_dir>
   
 Options:
   --input=<input_file>    Path to cleaned data CSV file
@@ -35,7 +34,6 @@ main <- function(input, output) {
 
   ggsave(filename = file.path(output, "age_distribution.png"), plot = bp, width = 8, height = 6)
 
-    data_clean <- read_csv(input)
 
   data_numeric <- data_clean %>%
     mutate(RiskLevel_numeric = as.numeric(RiskLevel)) %>%

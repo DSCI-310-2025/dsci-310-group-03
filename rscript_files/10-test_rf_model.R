@@ -6,7 +6,7 @@ and evaluates it on a test dataset by predicting class labels
 and probabilities.
 
 Usage:
-  test_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
+  10-test_rf_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
 
 Options:
   --test=<test_file>      Path to the test dataset (CSV).
@@ -28,8 +28,23 @@ main <- function(test_file, model_file, output_dir) {
 
   rf_predictions <- predict(rf_model, test_data)
 
-  output_file <- file.path(output_dir, "rf_predictions.csv")
-  write_csv(predictions_df, output_file)
+  rf_accuracy <- mean(rf_predictions == test_data$RiskLevel)
+
+  message("Random Forest Model Accuracy: ", round(rf_accuracy, 7))
+
+  predictions_df <- tibble(ID = 1:nrow(test_data), Predicted_Class = rf_predictions)
+
+  write_csv(predictions_df, file.path(output_dir, "rf_predictions.csv"))
+
+  accuracy_df <- data.frame(Model = "Random Forest", Accuracy = round(rf_accuracy, 7))
+
+  accuracy_file <- file.path(output_dir, "model_accuracies.csv")
+
+  if (!file.exists(accuracy_file)) {
+      write_csv(accuracy_df, accuracy_file)
+  } else {
+      write_csv(accuracy_df, accuracy_file, append = TRUE)
+  }
 }
 
 # Run the main function

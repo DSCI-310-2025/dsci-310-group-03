@@ -6,11 +6,16 @@ library(docopt)
 library(httr)
 
 # Define the command-line interface
-doc <- " Usage: download_data.R --url=<url> --output=<output_file>
+"This script retrieves the dataset from the url.
+
+Usage: 
+  01-load_data.R --url=<url> --output=<output_file>
+  
 Options:
   --url=<url>           URL of the dataset to download
   --output=<output_file>  Path to save the downloaded dataset
-"
+" -> doc
+
 opt <- docopt(doc)
 
 download_data <- function(url, output_file) {

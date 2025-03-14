@@ -5,12 +5,12 @@
 by predicting the most frequent class in the training data.
 
 Usage:
-  baseline_model.R --train=<train_file> --test=<test_file> --output=<output_file>
+  05-baseline_model.R --train=<train_file> --test=<test_file> --output=<output_file>
 
 Options:
   --train=<train_file>    Path to the training dataset (CSV).
   --test=<test_file>      Path to the testing dataset (CSV).
-  --output=<output_file>  Path to save the computed accuracy.
+  --output=<output_file>  Path to save the computed accuracy (CSV).
 " -> doc
 
 library(tidyverse)
@@ -30,7 +30,17 @@ main <- function(train_file, test_file, output_file) {
   majority_accuracy <- mean(majority_predictions == test_data$RiskLevel)
 
   message("Majority Class Baseline Accuracy: ", round(majority_accuracy, 7))
-  writeLines(as.character(round(majority_accuracy, 7)), output_file)
+
+  accuracy_df <- data.frame(Model = "Baseline", Accuracy = round(majority_accuracy, 7))
+
+  accuracy_file <- file.path(output_file, "model_accuracies.csv")
+
+  if (!file.exists(output_file)) {
+      write_csv(accuracy_df, output_file)
+  } else {
+      write_csv(accuracy_df, output_file, append = TRUE)
+  }
+
 }
 
 # Run script
