@@ -24,6 +24,14 @@ main <- function(input, output) {
     drop_na()
 
   write_csv(data_clean, output)
+
+  data_nan <- tibble(feature = names(data), na = colSums(is.na(data)))
+
+  write_csv(data_nan, output)
+
+  data_target_classes <- data %>% distinct(RiskLevel)
+
+  write_csv(data_target_classes, output)
 }
 
 main(opt$input, opt$output)
