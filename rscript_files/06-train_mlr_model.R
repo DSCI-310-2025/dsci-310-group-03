@@ -23,11 +23,9 @@ opt <- docopt(doc)
 main <- function(train_file, output_file, summary_file) {
   train_data <- read_csv(train_file)
 
-
   multinom_model <- multinom(RiskLevel ~ ., data = train_data)
 
   saveRDS(multinom_model, output_file)
-
 
   model_summary <- tidy(multinom_model)
 
@@ -35,7 +33,6 @@ main <- function(train_file, output_file, summary_file) {
     mutate(odds_ratio = exp(estimate))
 
   write_csv(model_summary, summary_file)
-
 }
 
 main(opt$train, opt$output, opt$summary)
