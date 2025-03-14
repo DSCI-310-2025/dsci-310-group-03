@@ -1,0 +1,180 @@
+---
+title: "Maternal Health Risk Prediction"
+subtitle: "A Comparative Study of Machine Learning Model Performance"
+author: "Mengen Liu, Roy Oh, Kim Tan Palanca, & Nicolas Zhu"
+bibliography: references.bib
+bibliographystyle: apa
+format:
+    html:
+        toc: true
+        toc-depth: 2
+        toc-title: Table of Contents
+        embed-resources: true
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+  output: true
+---
+
+```{r}
+library(tidyverse)
+library(corrplot)
+library(nnet)
+library(caret)
+library(randomForest)
+library(broom)
+library(grid)
+library(gridExtra)
+library(vip)
+```
+
+# Summary
+This project aims to use machine learning to predict maternal health risk based on key physiological factors by comparing the performances between two models. Maternal health are a major concern in healthcare. Hence, early risk assessment is crucial for the welfare of both the mother and child. By leveraging structured data from the Maternal Health Risk Dataset, we trained and evaluated machine learning models to classify maternal health risk levels into three different classes: low, mid, and high risk.
+
+The dataset contains 1,014 records with features such as age, blood pressures, blood sugar levels, body temperature and heart rate. Our goal will be to determine whether machine learning algorithms could accurately predict risk levels based on these physiological markers. We will first conduct an exploratory data analysis before building any of the models. Once we have trained the models, their accuracies will be evaluated as measures of performance.
+
+# Introduction
+Maternal health can be defined as "the health condition of women during preganancy, childbirth, and the postnatal period [@who-2025]. This is a critical area of healthcare, as complications during preganancy and childbirth can lead to severe consequences for both mothers and newborns. According to the [@who-2024], around 800 women died each day in 2020 due to preventable causes related to maternal health, further emphasizing the need for risk assessment measures. 
+
+Historically, risk assessment have been carried out by medical professionals that relied heavily on clinical expertise and constant monitoring. However, traditional approaches to monitoring basic physiological indicators often lacked efficiency in identifying potential complications [@Mu-2023]. Since the boom of machine learning (ML), many members of the academe have explored the use of ML in maternal health risk prediction, offering data-driven approaches to enhance early detection and intervention to offload the burden on overworked medical professionals [@Bajaj-2023; @Mu-2023; @Ukrit-2024].
+
+The analysis will utilize the [Maternal Health Risk](https://archive.ics.uci.edu/dataset/863/maternal+health+risk) dataset sourced from the UC Irvine Machine Learning Repository [@dataset]. Consisting of 1014 observations, this dataset includes the following 7 features:
+
+- `Age`: Age of the patient (in years).
+- `SystolicBP`: Systolic Blood Pressure (mmHg).
+- `DiastolicBP`: Diastolic Blood Pressure (mmHg).
+- `BS (Blood Sugar Level)`: Blood sugar concentration (mmol/L).
+- `BodyTemp`: Body temperature (°F).
+- `HeartRate`: Heart rate (beats per minute).
+- `RiskLevel`: The target variable, categorized into low risk, mid risk, and high risk.
+
+## Project Question
+To contribute to this discourse, this research aims to conduct a comparative study on the performance of two ML techniques in predicting maternal health risk, assessing each model's reliability in identifying risk levels. The following research question guides this analysis:
+
+- Which machine learning model most accurately predicts the maternal health risk level (low, medium, or high risk) based on physiological indicators such as blood sugar levels, body temperature, and other relevant health factors?
+
+# Methods 
+For this analysis, the data will first be loaded into the notebook then cleaned to handle any possible missing values and ensure its usability for the various models. Following the data cleaning stabe will be an exploratory data analysis (EDA) to gain a comprehensive view of the data. This step will include visualizing the summary statistics, distributions, and correlations between variables to determine any patterns in the data prior to the model development.
+
+This study will implement 3 ML classification models:
+1. Baseline (Majority Class)
+2. Logistic Regression
+3. Random Forest
+
+Each model will be evaluated based on the appropriate classification metric to compare their relative performance in maternal health risk prediction. 
+
+## Wrangling and Cleaning the Data
+We found no missing values in the dataset and that the features `Age`, `SystolicBP`, `DiastolicBP`, `BS`, `BodyTemp`, and `HeartRate` are numeric variables, while `RiskLevel` is currently a character variable. Moreover, there are three categories under `RiskLevel`: high risk, mid risk, and low risk. Given the three distinct categories under the target feature, we will modify `RiskLevel` to a factor variable to appropriately reflect its categorical nature in further analysis. 
+
+```{r}
+#| label: tbl-clean
+#| tbl-cap: Sample of the Cleaned Data
+
+clean_df <- read_csv('data/processed/cleaned.csv')
+clean_df
+```
+
+## Exploratory Data Analysis
+### Summary Statistics
+```{r}
+summary(clean_df)
+```
+
+### Age Distributions
+Since age is an important factor in maternal health, we visualize the age distribution by risk level. From the visualization, high risk individuals have a higher median age around 35 years old. Additionally, the interquartile range indicates that the high risk group has more variation in age. We observe some outliers in the low and mid risk groups. Based on the visualization, older aged individuals seem more associated with maternal health risks. 
+
+![Age Distribution by Risk Level](../images/age_distribution.png){#fig-age-distrib}
+
+Since the target classes seem relatively balanced, it would be appropriate to use **accuracy** as the main scoring metric. Accuracy is given by the number correct prediction out of all predictions made
+
+### Correlation Matrix
+
+::: {#fig-corr-mat layout-ncol=2}
+![Ellipse Correlation](../images/correlation_matrix.png)
+![Correlation Values](../images/correlation_values.png)
+
+Correlation Matrix
+:::
+
+All of the variables have a positive correlation with RiskLevel, indicating that increases in these variables generally correspond to a higher maternal health risk. BS (Blood Sugar level) has the strongest correlation of 0.57, suggesting it is likely to be the most influential factor. We thought age would have a stronger correlation with RiskLevel, however, systolic blood pressure and diastolic blood pressure seems to have a stronger correlation with RiskLevel than age. Additionally, there are no signs of concern for multicollinearity issues in this dataset.
+
+These findings may be a possible reason for the outliers observed above. Younger individuals with high blood pressures or sugar levels may be classified into higher risk levels. This indicates the importance of other factors.
+
+# Classification Model Building
+## Train/Test Splitting
+The cleaned data will be split into training and testing sets, with 80% allocated for training and 20% for testing.
+
+## Baseline Model (Majority Class)
+```{r}
+source(05-baseline_model.R)
+base_accuracy <- mean(majority_predictions == test_data$RiskLevel)
+```
+
+The baseline model has shown an accuracy of `r base_accuracy`.
+
+## Multinomial Logistic Regression
+```{r}
+#| label: tbl-mlr-coefs
+#| tbl-cap: "Multinomial Logistic Regression Model"
+source(06-train_mlr_model.R)
+summary(multinom_model)
+```
+
+```{r}
+#| label: tbl-mlr-log-odds
+#| tbl-cap: Exponentiated coefficients to transform log-odds to odds ratio
+
+log_odds <- read_csv('...')
+log_odds
+```
+
+### Model Testing
+The multinomial logistic regression has only given us an slightly better accuracy than the baseline, a 0.1782178 better score than the baseline model 
+
+#to include blood sugar graph
+
+Lastly, we plot multinomial logistic regression graphs to visualize how predicted probabilities changes among different variable levels. We observe that as blood sugar level rises the probability of high risk increases, while mid and low risk decreases. 
+
+## Random Forest
+
+#to add model from script
+
+Here are the parameters that have been passed through the randomForest object:
+- `RiskLevel ~ .`: Predicts RiskLevel based on all other features
+- `ntree = 500`: Uses 500 trees in the forest
+- `importance` = TRUE: Computes feature importance
+
+### Model Testing
+Now that the model is trained using our train set, we can make predictions on the test set. Moreover, we can assess feature importances with a random forest model.
+
+#to include feature importances plot
+
+Based on the graph above, we see that the model identifies blood sugar, systolic blood pressure, and body temperature as the top predictors of maternal health risk (i.e., have the most predictive power). With blood sugar specifically, we see that it's feature importance reaches over 100 indicating that it is highly influential in predicting maternal health risk compared to the other features. 
+
+# Results
+
+#to add confusion matrices and plots
+
+Random Forest has yielded 0.8118812 score. 0.2326733 better accuracy than the multinomial logistic regression and 0.4108911 better accuracy than the baseline model
+
+# Discussion
+## Best performing model
+As shown in the bar graph above, our analyses suggest that maternal health risk during pregnancy can be predicted with up to a 81.19% accuracy using our random forests decision trees model. The second best model was the multinomial logistic regression that had a 57.92% accuracy. Both models performed better than the baseline (40.10%). Both models performing better than the baseline is expected as well as the random forest performing better than the logistic regression as past literature have found similar results [@Mu-2023; @Ukrit-2024].
+
+## Interpretation
+The multinomial logistic regression, while less accurate, is more interpretable and gives us an idea of how a 1-unit increase in a variable is associated with a change in the odds of being in a certain risk category. For example, the multinomial logistic regression suggests that a 1 unit increase in Blood Sugar level is associated with an increase in the odds of being in "`high risk` compared to `low risk` by a factor of 2.13. 
+
+The best predictors for `high risk` compared to `low risk` were body temperature ($OR$ = 2.29, $p$ < .001) and blood sugar ($OR$ = 2.13, $p$ < .001). A one unit increase in both was associated with a more than double increase in the odds of being in the `high risk` category.
+
+The best predictors for `medium risk` compared to `low risk` were also body temperature ($OR$ = 1.53, $p$ < .001) and blood sugar ($OR$ = 1.40, $p$ < .001). The odds are 
+
+Both the multinomial logistic regression model and the Random Forest model performed best when predicting `high risk`. 
+
+## Impact
+Our analyses show that body temperature and blood sugar are both relatively strongly associated with increasing maternal health risk. We do however acknowledge that our models do not necessarily imply a causal effect such that reducing blood sugar or body temperature will reduce your maternal health risk. Additionally, our models are limited by the number of variables we accounted for. Other factors such as age, parental health conditions, and many more would improve the generalizability of our models. 
+
+Our analyses should therefore not be used as guidelines for pregnant mothers. Now that we have have further evidence that blood sugar and body temperature are associated with maternal health risk, future research could explore the potential causal mechanism of these relationships. Future research may also explore whether this effect remains constant across age or whether certain age groups are more susceptible to the effects of blood sugar/body temperature on maternal health risk. 
+
+
