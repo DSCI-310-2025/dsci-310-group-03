@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Maternal Health Risk Prediction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="data_analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="data_analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="data_analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="data_analysis_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="data_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="data_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="data_analysis_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Maternal Health Risk Prediction</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="a-comparative-study-of-machine-learning-model-performance" class="level3">
+<h3 class="anchored" data-anchor-id="a-comparative-study-of-machine-learning-model-performance">A Comparative Study of Machine Learning Model Performance</h3>
+<hr>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This project aims to use machine learning to predict maternal health risk based on key physiological factors by comparing the performances between two models. Maternal health are a major concern in healthcare. Hence, early risk assessment is crucial for the welfare of both the mother and child. By leveraging structured data from the Maternal Health Risk Dataset, we trained and evaluated machine learning models to classify maternal health risk levels into three different classes: low, mid, and high risk.</p>
+<p>The dataset contains 1,014 records with features such as age, blood pressures, blood sugar levels, body temperature and heart rate. Our goal will be to determine whether machine learning algorithms could accurately predict risk levels based on these physiological markers. We will first conduct an exploratory data analysis before building any of the models. Once we have trained the models, they will be evaluated through classification metrics such as precision, recall, F1-score, and AUC-ROC.</p>
+<hr>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Maternal health can be defined as “the health condition of women during preganancy, childbirth, and the postnatal period (WHO, 2025). This is a critical area of healthcare, as complications during preganancy and childbirth can lead to severe consequences for both mothers and newborns. According to the World Health Organization (2024), around 800 women died each day in 2020 due to preventable causes related to maternal health, further emphasizing the need for risk assessment measures.</p>
+<p>Historically, risk assessment have been carried out by medical professionals that relied heavily on clinical expertise and constant monitoring. However, traditional approaches to monitoring basic physiological indicators often lacked efficiency in identifying potential complications (Mu et al., 2023). Since the boom of machine learning (ML), many members of the academe have explored the use of ML in maternal health risk prediction, offering data-driven approaches to enhance early detection and intervention to offload the burden on overworked medical professionals (Mu et al., 2023; Ukrit et al., 2024; Bajaj et al., 2023).</p>
+<p>To contribute to this discourse, this research aims to conduct a comparative study on the performance of two ML techniques in predicting maternal health risk, assessing each model’s reliability in identifying risk levels.</p>
+<p>The analysis will utilize the <a href="https://archive.ics.uci.edu/dataset/863/maternal+health+risk">Maternal Health Risk</a> dataset sourced from the UC Irvine Machine Learning Repository. Consisting of 1014 observations, this dataset includes the following 7 features:</p>
+<ul>
+<li><code>Age</code>: Age of the patient (in years).</li>
+<li><code>SystolicBP</code>: Systolic Blood Pressure (mmHg).</li>
+<li><code>DiastolicBP</code>: Diastolic Blood Pressure (mmHg).</li>
+<li><code>BS (Blood Sugar Level)</code>: Blood sugar concentration (mmol/L).</li>
+<li><code>BodyTemp</code>: Body temperature (°F).</li>
+<li><code>HeartRate</code>: Heart rate (beats per minute).</li>
+<li><code>RiskLevel</code>: The target variable, categorized into low risk, mid risk, and high risk.</li>
+</ul>
+<hr>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>For this analysis, the data will first be loaded into the notebook then cleaned to handle any possible missing values and ensure its usability for the various models. Following the data cleaning stabe will be an exploratory data analysis (EDA) to gain a comprehensive view of the data. This step will include visualizing the summary statistics, distributions, and correlations between variables to determine any patterns in the data prior to the model development.</p>
+<p>This study will implement 2 ML classification models: 1. Logistic Regression 2. Random Forest</p>
+<p>Each model will be evaluated using various metrics such as accuracy, precision, recall, F1-score, and AUC-ROC to compare their relative performance in maternal health risk prediction.</p>
+<section id="importing-relevant-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="importing-relevant-libraries">Importing Relevant Libraries</h3>
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ERROR: Error: package or namespace load failed for ‘caret’ in library.dynam(lib, package, package.lib):
+ shared object ‘Rcpp.dylib’ not found
+
+Error: package or namespace load failed for ‘caret’ in library.dynam(lib, package, package.lib):
+ shared object ‘Rcpp.dylib’ not found
+Traceback:
+
+1. library(caret)
+2. tryCatch({
+ .     attr(package, "LibPath") &lt;- which.lib.loc
+ .     ns &lt;- loadNamespace(package, lib.loc)
+ .     env &lt;- attachNamespace(ns, pos = pos, deps, exclude, include.only)
+ . }, error = function(e) {
+ .     P &lt;- if (!is.null(cc &lt;- conditionCall(e))) 
+ .         paste(" in", deparse(cc)[1L])
+ .     else ""
+ .     msg &lt;- gettextf("package or namespace load failed for %s%s:\n %s", 
+ .         sQuote(package), P, conditionMessage(e))
+ .     if (logical.return &amp;&amp; !quietly) 
+ .         message(paste("Error:", msg), domain = NA)
+ .     else stop(msg, call. = FALSE, domain = NA)
+ . })
+3. tryCatchList(expr, classes, parentenv, handlers)
+4. tryCatchOne(expr, names, parentenv, handlers[[1L]])
+5. value[[3L]](cond)
+6. stop(msg, call. = FALSE, domain = NA)</code></pre>
+</div>
+</div>
+</section>
+<section id="reading-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="reading-the-data">Reading the Data</h3>
+<p>The <a href="https://archive.ics.uci.edu/dataset/863/maternal+health+risk">dataset</a> was downloaded from the UC Irvine Machine Learning Repository and uploaded to the project’s repository from which it is read for the analysis.</p>
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Maternal Health Risk Data Set.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 1: Sample of Raw Data</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1014 Columns: 7
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): RiskLevel
+dbl (6): Age, SystolicBP, DiastolicBP, BS, BodyTemp, HeartRate
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 1: Sample of Raw Data
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">Age</th>
+<th data-quarto-table-cell-role="th" scope="col">SystolicBP</th>
+<th data-quarto-table-cell-role="th" scope="col">DiastolicBP</th>
+<th data-quarto-table-cell-role="th" scope="col">BS</th>
+<th data-quarto-table-cell-role="th" scope="col">BodyTemp</th>
+<th data-quarto-table-cell-role="th" scope="col">HeartRate</th>
+<th data-quarto-table-cell-role="th" scope="col">RiskLevel</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>25</td>
+<td>130</td>
+<td>80</td>
+<td>15.00</td>
+<td>98</td>
+<td>86</td>
+<td>high risk</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td>140</td>
+<td>90</td>
+<td>13.00</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td>90</td>
+<td>70</td>
+<td>8.00</td>
+<td>100</td>
+<td>80</td>
+<td>high risk</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>140</td>
+<td>85</td>
+<td>7.00</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+<tr class="odd">
+<td>35</td>
+<td>120</td>
+<td>60</td>
+<td>6.10</td>
+<td>98</td>
+<td>76</td>
+<td>low risk</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td>140</td>
+<td>80</td>
+<td>7.01</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="wrangling-and-cleaning-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="wrangling-and-cleaning-the-data">Wrangling and Cleaning the Data</h3>
+<p>From the cell below, we find that there are no NA or null values in our dataset.</p>
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">feature =</span> <span class="fu">names</span>(data), <span class="at">na =</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A tibble: 7 × 2</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">feature</th>
+<th data-quarto-table-cell-role="th" scope="col">na</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Age</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>SystolicBP</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>DiastolicBP</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>BS</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>BodyTemp</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>HeartRate</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>RiskLevel</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The code below shows that the features <code>Age</code>, <code>SystolicBP</code>, <code>DiastolicBP</code>, <code>BS</code>, <code>BodyTemp</code>, and <code>HeartRate</code> are numeric variables, while <code>RiskLevel</code> is currently a character variable. Moreover, there are three categories under <code>RiskLevel</code>: high risk, mid risk, and low risk</p>
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(RiskLevel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [1,014 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Age        : num [1:1014] 25 35 29 30 35 23 23 35 32 42 ...
+ $ SystolicBP : num [1:1014] 130 140 90 140 120 140 130 85 120 130 ...
+ $ DiastolicBP: num [1:1014] 80 90 70 85 60 80 70 60 90 80 ...
+ $ BS         : num [1:1014] 15 13 8 7 6.1 7.01 7.01 11 6.9 18 ...
+ $ BodyTemp   : num [1:1014] 98 98 100 98 98 98 98 102 98 98 ...
+ $ HeartRate  : num [1:1014] 86 70 80 70 76 70 78 86 70 70 ...
+ $ RiskLevel  : chr [1:1014] "high risk" "high risk" "high risk" "high risk" ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   Age = col_double(),
+  ..   SystolicBP = col_double(),
+  ..   DiastolicBP = col_double(),
+  ..   BS = col_double(),
+  ..   BodyTemp = col_double(),
+  ..   HeartRate = col_double(),
+  ..   RiskLevel = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A tibble: 3 × 1</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">RiskLevel</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>high risk</td>
+</tr>
+<tr class="even">
+<td>low risk</td>
+</tr>
+<tr class="odd">
+<td>mid risk</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Given the three distinct categories under the target feature, we will modify <code>RiskLevel</code> to a factor variable to appropriately reflect its categorical nature in further analysis.</p>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">RiskLevel =</span> <span class="fu">factor</span>(RiskLevel, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low risk"</span>, <span class="st">"mid risk"</span>, <span class="st">"high risk"</span>)))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 2: Sample of Clean Data</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 2: Sample of Clean Data
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">Age</th>
+<th data-quarto-table-cell-role="th" scope="col">SystolicBP</th>
+<th data-quarto-table-cell-role="th" scope="col">DiastolicBP</th>
+<th data-quarto-table-cell-role="th" scope="col">BS</th>
+<th data-quarto-table-cell-role="th" scope="col">BodyTemp</th>
+<th data-quarto-table-cell-role="th" scope="col">HeartRate</th>
+<th data-quarto-table-cell-role="th" scope="col">RiskLevel</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;fct&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>25</td>
+<td>130</td>
+<td>80</td>
+<td>15.00</td>
+<td>98</td>
+<td>86</td>
+<td>high risk</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td>140</td>
+<td>90</td>
+<td>13.00</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td>90</td>
+<td>70</td>
+<td>8.00</td>
+<td>100</td>
+<td>80</td>
+<td>high risk</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>140</td>
+<td>85</td>
+<td>7.00</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+<tr class="odd">
+<td>35</td>
+<td>120</td>
+<td>60</td>
+<td>6.10</td>
+<td>98</td>
+<td>76</td>
+<td>low risk</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td>140</td>
+<td>80</td>
+<td>7.01</td>
+<td>98</td>
+<td>70</td>
+<td>high risk</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="eda" class="level3">
+<h3 class="anchored" data-anchor-id="eda">EDA</h3>
+<section id="summary-statistics" class="level4">
+<h4 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h4>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>      Age          SystolicBP     DiastolicBP           BS        
+ Min.   :10.00   Min.   : 70.0   Min.   : 49.00   Min.   : 6.000  
+ 1st Qu.:19.00   1st Qu.:100.0   1st Qu.: 65.00   1st Qu.: 6.900  
+ Median :26.00   Median :120.0   Median : 80.00   Median : 7.500  
+ Mean   :29.87   Mean   :113.2   Mean   : 76.46   Mean   : 8.726  
+ 3rd Qu.:39.00   3rd Qu.:120.0   3rd Qu.: 90.00   3rd Qu.: 8.000  
+ Max.   :70.00   Max.   :160.0   Max.   :100.00   Max.   :19.000  
+    BodyTemp        HeartRate        RiskLevel  
+ Min.   : 98.00   Min.   : 7.0   low risk :406  
+ 1st Qu.: 98.00   1st Qu.:70.0   mid risk :336  
+ Median : 98.00   Median :76.0   high risk:272  
+ Mean   : 98.67   Mean   :74.3                  
+ 3rd Qu.: 98.00   3rd Qu.:80.0                  
+ Max.   :103.00   Max.   :90.0                  </code></pre>
+</div>
+</div>
+</section>
+<section id="distributions" class="level4">
+<h4 class="anchored" data-anchor-id="distributions">Distributions</h4>
+<p>Since age is an important factor in maternal health, we visualize the age distribution by risk level. From the visualization, high risk individuals have a higher median age around 35 years old. Additionally, the interquartile range indicates that the high risk group has more variation in age. We observe some outliers in the low and mid risk groups. Based on the visualization, older aged individuals seem more associated with maternal health risks.</p>
+<p>For further exploration, we plot for each variable.</p>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> RiskLevel, <span class="at">y =</span> Age, <span class="at">fill =</span> RiskLevel)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Figure 1: Age Distribution by Risk Level"</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Risk Level"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-8-output-1.png" width="420" height="420" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="correlation-matrix" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-matrix">Correlation Matrix</h4>
+<p>All of the variables have a positive correlation with RiskLevel, indicating that increases in these variables generally correspond to a higher maternal health risk. BS (Blood Sugar level) has the strongest correlation of 0.57, suggesting it is likely to be the most influential factor. We thought age would have a stronger correlation with RiskLevel, however, systolic blood pressure and diastolic blood pressure seems to have a stronger correlation with RiskLevel than age.</p>
+<p>These findings may be a possible reason for the outliers observed above. Younger individuals with high blood pressures or sugar levels may be classified into higher risk levels. This indicates the importance of other factors.</p>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Temporarily change RiskLevel to numerical values (3 = high risk, 2 = mid risk, 1 = low risk)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data_numeric <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RiskLevel_numeric =</span> <span class="fu">as.numeric</span>(RiskLevel)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>RiskLevel)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(data_numeric)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="fl">6.5</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"ellipse"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Figure 2b: Correlation Matrix"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">"number"</span>, <span class="at">type =</span> <span class="st">"upper"</span>, <span class="at">number.cex =</span> <span class="fl">1.5</span>, <span class="at">tl.cex =</span> <span class="fl">0.8</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"grey"</span>, <span class="st">"blue"</span>))(<span class="dv">200</span>))</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Figure 2b: Correlation Matrix Values"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-9-output-1.png" width="390" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-9-output-2.png" width="390" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="classification-model-building" class="level2">
+<h2 class="anchored" data-anchor-id="classification-model-building">Classification Model Building</h2>
+<section id="traintest-splitting" class="level3">
+<h3 class="anchored" data-anchor-id="traintest-splitting">Train/Test Splitting</h3>
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an 80% training and 20% testing split</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(data_clean<span class="sc">$</span>RiskLevel, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data into training and testing sets</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data_clean[train_index, ]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> data_clean[<span class="sc">-</span>train_index, ]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train_data)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class="list-inline"><li>812</li><li>7</li></ol>
+</div>
+<div class="cell-output cell-output-display">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class="list-inline"><li>202</li><li>7</li></ol>
+</div>
+</div>
+</section>
+<section id="multinomial-logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic regression</h3>
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>multinom_logistic <span class="ot">&lt;-</span> <span class="fu">multinom</span>(RiskLevel <span class="sc">~</span> ., <span class="at">data =</span> train_data)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multinom_logistic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  24 (14 variable)
+initial  value 892.073178 
+iter  10 value 731.740084
+iter  20 value 651.225981
+iter  30 value 618.926897
+iter  40 value 618.918226
+iter  50 value 618.750052
+final  value 618.748469 
+converged</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Call:
+multinom(formula = RiskLevel ~ ., data = train_data)
+
+Coefficients:
+          (Intercept)          Age SystolicBP DiastolicBP        BS  BodyTemp
+mid risk    -51.45546 -0.003381834 0.06674558 -0.04451933 0.3392350 0.4283579
+high risk  -102.69736 -0.022647143 0.07188222  0.01910705 0.7532347 0.8265515
+           HeartRate
+mid risk  0.03462081
+high risk 0.07073450
+
+Std. Errors:
+           (Intercept)         Age  SystolicBP DiastolicBP         BS
+mid risk  0.0001767925 0.007943439 0.008090217  0.01065454 0.08396116
+high risk 0.0001486341 0.012346374 0.011886866  0.01509759 0.08939212
+            BodyTemp  HeartRate
+mid risk  0.01314433 0.01283421
+high risk 0.01702684 0.01643069
+
+Residual Deviance: 1237.497 
+AIC: 1265.497 </code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predict probabilities</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>test_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(multinom_logistic, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"probs"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_predictions)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 3: Predicted Probabilities for Test</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_probabilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class="list-inline"><li>high risk</li><li>low risk</li><li>mid risk</li><li>low risk</li><li>low risk</li><li>low risk</li></ol>
+
+<details>
+    <summary style="display:list-item;cursor:pointer">
+        <strong>Levels</strong>:
+    </summary>
+    <style>
+    .list-inline {list-style: none; margin:0; padding: 0}
+    .list-inline>li {display: inline-block}
+    .list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+    </style>
+    <ol class="list-inline"><li>'low risk'</li><li>'mid risk'</li><li>'high risk'</li></ol>
+</details>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 3: Predicted Probabilities for Test
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 6 × 3 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">low risk</th>
+<th data-quarto-table-cell-role="th" scope="col">mid risk</th>
+<th data-quarto-table-cell-role="th" scope="col">high risk</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>0.00227716</td>
+<td>0.08505357</td>
+<td>0.91266927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>0.49794075</td>
+<td>0.35319560</td>
+<td>0.14886365</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>0.38120326</td>
+<td>0.59430812</td>
+<td>0.02448862</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>0.52108173</td>
+<td>0.38810710</td>
+<td>0.09081117</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">5</td>
+<td>0.68201782</td>
+<td>0.21871018</td>
+<td>0.09927200</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">6</td>
+<td>0.75971266</td>
+<td>0.21579223</td>
+<td>0.02449511</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(test_predictions), <span class="fu">as.factor</span>(test_data<span class="sc">$</span>RiskLevel))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(conf_matrix<span class="sc">$</span>table)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cm_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"True"</span>, <span class="st">"Predicted"</span>, <span class="st">"Frequency"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>cm_table <span class="ot">&lt;-</span> cm_table <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(True) <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Percentage =</span> <span class="fu">round</span>((Frequency <span class="sc">/</span> <span class="fu">sum</span>(Frequency)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))  <span class="co"># Round to 1 decimal place</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\033</span><span class="st">[1mTable 4: Confusion Matrix</span><span class="sc">\033</span><span class="st">[0m</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>cm_table</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>cm_visualization <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cm_table, <span class="fu">aes</span>(<span class="at">x =</span> True, <span class="at">y =</span> Predicted, <span class="at">fill =</span> Frequency)) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  <span class="co"># Draw tiles</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(Frequency, <span class="st">"</span><span class="sc">\n</span><span class="st">("</span>, Percentage, <span class="st">"%)"</span>)), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span>  <span class="co"># Add labels</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span>  <span class="co"># Color scale</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Figure 3: Confusion Matrix with Frequencies and Percentages"</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"True Label"</span>, <span class="at">y =</span> <span class="st">"Predicted Label"</span>) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>cm_visualization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Table 4: Confusion Matrix
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A grouped_df: 9 × 4</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">True</th>
+<th data-quarto-table-cell-role="th" scope="col">Predicted</th>
+<th data-quarto-table-cell-role="th" scope="col">Frequency</th>
+<th data-quarto-table-cell-role="th" scope="col">Percentage</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th" scope="col">&lt;fct&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;fct&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;int&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>low risk</td>
+<td>low risk</td>
+<td>62</td>
+<td>58.5</td>
+</tr>
+<tr class="even">
+<td>mid risk</td>
+<td>low risk</td>
+<td>16</td>
+<td>42.1</td>
+</tr>
+<tr class="odd">
+<td>high risk</td>
+<td>low risk</td>
+<td>3</td>
+<td>5.2</td>
+</tr>
+<tr class="even">
+<td>low risk</td>
+<td>mid risk</td>
+<td>41</td>
+<td>38.7</td>
+</tr>
+<tr class="odd">
+<td>mid risk</td>
+<td>mid risk</td>
+<td>13</td>
+<td>34.2</td>
+</tr>
+<tr class="even">
+<td>high risk</td>
+<td>mid risk</td>
+<td>13</td>
+<td>22.4</td>
+</tr>
+<tr class="odd">
+<td>low risk</td>
+<td>high risk</td>
+<td>3</td>
+<td>2.8</td>
+</tr>
+<tr class="even">
+<td>mid risk</td>
+<td>high risk</td>
+<td>9</td>
+<td>23.7</td>
+</tr>
+<tr class="odd">
+<td>high risk</td>
+<td>high risk</td>
+<td>42</td>
+<td>72.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-13-output-3.png" width="390" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest">Random Forest</h3>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<ul>
+<li>summarize what you found</li>
+<li>discuss whether this is what you expected to find?</li>
+<li>discuss what impact could such findings have?</li>
+<li>discuss what future questions could this lead to?</li>
+</ul>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Ahmed, M. (2020). Maternal Health Risk [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5DP5D.</p>
+<p>Bajaj, D., Kumari, R., &amp; Bansal, P. (2023). Risk level prediction for maternal health using machine learning algorithms. 2023 International Conference on Communication, Security and Artificial Intelligence (ICCSAI), 405–409. https://doi.org/10.1109/iccsai59793.2023.10421156</p>
+<p>Mu, C., Yan, Z., &amp; Zhu, Y. (2023). Prediction of maternal health risk based on physiological indicators. Proceedings of the 2023 4th International Symposium on Artificial Intelligence for Medicine Science, 578–584. https://doi.org/10.1145/3644116.3644212</p>
+<p>Ukrit, M. F., Jeyavathana, R. B., Rani, A. L., &amp; Chandana, V. (2024). Maternal health risk prediction with machine learning methods. 2024 Second International Conference on Emerging Trends in Information Technology and Engineering (ICETITE), 1–9. https://doi.org/10.1109/ic-etite58242.2024.10493737</p>
+<p>World Health Organization. (2024, April 26). Maternal mortality. World Health Organization. https://www.who.int/news-room/fact-sheets/detail/maternal-mortality</p>
+<p>World Health Organization. (2025). Maternal health. World Health Organization. https://www.who.int/health-topics/maternal-health#tab=tab_1</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
