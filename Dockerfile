@@ -16,7 +16,7 @@ RUN R -e "remotes::install_version('vip', version = '0.4.1', repos = 'https://cr
 
 COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md /home/jovyan/
 COPY data/ /home/jovyan/data/
-COPY data_analysis.ipynb /home/jovyan/data_analysis.ipynb
+COPY report/data_analysis.ipynb /home/jovyan/report/data_analysis.ipynb
 
 USER root
 RUN fix-permissions /home/jovyan
