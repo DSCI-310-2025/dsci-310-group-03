@@ -1,4 +1,4 @@
-FROM jupyter/r-notebook
+FROM quay.io/jupyter/r-notebook:notebook-7.3.2
 
 WORKDIR /home/jovyan
 
