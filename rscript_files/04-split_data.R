@@ -27,8 +27,6 @@ main <- function(input, output) {
     train_data <- data_clean[train_index, ]
     test_data <- data_clean[-train_index, ]
 
-
-
     write_csv(train_data, file.path(output, "train_data.csv"))
     write_csv(test_data, file.path(output, "test_data.csv"))
 
