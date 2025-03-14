@@ -1,4 +1,4 @@
-FROM jupyter/r-notebook
+FROM quay.io/jupyter/r-notebook:notebook-7.3.2
 
 WORKDIR /home/jovyan
 
@@ -14,7 +14,8 @@ RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.c
           remotes::install_version('gridExtra', version = '2.3', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('vip', version = '0.4.1', repos = 'https://cran.rstudio.com/')"
 
-COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md LICENSE.md data/ maternal_health_modeling.ipynb /home/jovyan/
+COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE data/ report/maternal_health_modeling.ipynb /home/jovyan/
+
 USER root
 RUN fix-permissions /home/jovyan
 USER jovyan
