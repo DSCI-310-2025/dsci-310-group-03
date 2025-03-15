@@ -30,7 +30,6 @@ eda <- function(input, output_img, output_csv) {
 
   write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
 
-  # Boxplot of Age by Risk Level
   bp <- ggplot(data_clean, aes(x = RiskLevel, y = Age, fill = RiskLevel)) +
     geom_boxplot() +
     theme_minimal() +
@@ -44,20 +43,6 @@ eda <- function(input, output_img, output_csv) {
     select(-RiskLevel)
 
   cor_matrix <- cor(data_numeric)
-
-  
-  #options(repr.plot.width=6.5, repr.plot.height=6)
-
-  #png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
-  #corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
-  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
-  #dev.off()
-
-  #png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
-  #corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
-  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
-  #dev.off()
-  
   
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "ellipse", 
