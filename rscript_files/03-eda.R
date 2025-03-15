@@ -34,6 +34,9 @@ eda <- function(input, output_img, output_csv) {
 
   write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
 
+  data_clean = data_clean %>% 
+        mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk")))
+
 
   bp <- ggplot(data_clean, aes(x = RiskLevel, y = Age, fill = RiskLevel)) +
     geom_boxplot() +
@@ -44,7 +47,6 @@ eda <- function(input, output_img, output_csv) {
 
 
   data_numeric <- data_clean %>%
-    mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk"))) %>%
     mutate(RiskLevel_numeric = as.numeric(RiskLevel)) %>%
     select(-RiskLevel)
   
