@@ -51,13 +51,11 @@ main <- function(input, output_img, output_csv) {
   png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
   corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
             col = colorRampPalette(c("red", "grey", "blue"))(200))
-  mtext("Figure 2b: Correlation Matrix", side = 3, line = 3, cex = 1.5, font = 2)
   dev.off()
 
   png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
   corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
             col = colorRampPalette(c("red", "grey", "blue"))(200))
-  mtext("Figure 2b: Correlation Matrix Values", side = 3, line = 3, cex = 1.5, font = 2)
   dev.off()
 }
 
