@@ -23,6 +23,10 @@ opt <- docopt(doc)
 main <- function(train, output_model, output_csv) {
   train_data <- read_csv(train)
 
+train_data <- train_data %>%
+  mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk"))) %>%
+  mutate(RiskLevel = relevel(RiskLevel, ref = "low risk"))
+
   multinom_model <- multinom(RiskLevel ~ ., data = train_data)
 
   saveRDS(multinom_model, file.path(output_model, "mlr_model.rds"))
