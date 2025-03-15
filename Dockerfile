@@ -25,7 +25,7 @@ RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.c
           remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/');"
 
 
-COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE data/ report/maternal_health_modeling.ipynb /home/jovyan/
+COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE data/ reports/maternal_health_modeling.ipynb /home/jovyan/
 
 USER root
 RUN fix-permissions /home/jovyan
