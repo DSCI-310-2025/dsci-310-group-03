@@ -19,8 +19,11 @@ RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.c
           remotes::install_version('zip', version = '2.3.1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('mgcv', version = '1.9-1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('gridExtra', version = '2.3', repos = 'https://cran.rstudio.com/'); \
-          remotes::install_version('png', version = '0.1-8', repos = 'https://cran.rstudio.com/');" 
-          
+          remotes::install_version('png', version = '0.1-8', repos = 'https://cran.rstudio.com/'); \
+          remotes::install_version('ggcorrplot', version = '0.1.4', repos = 'https://cran.rstudio.com/'); \
+          remotes::install_version('rmarkdown', version = '2.26', repos = 'https://cran.rstudio.com/'); \
+          remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/');"
+
 
 COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE data/ report/maternal_health_modeling.ipynb /home/jovyan/
 

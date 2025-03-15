@@ -62,6 +62,16 @@ To replicate this analysis, kindly follow the instructions below:
     - broom (version = 1.0.7)
     - gridExtra (version = 2.3)
     - vip (version = 0.4.1)
+    - docopt (version = 0.7.1)
+    - httr (version = 1.4.7)
+    - readr (version = 2.1.5)
+    - zip (version = 2.3.1)
+    - mgcv (version = 1.9-1)
+    - gridExtra (version = 2.3)
+    - png (version = 0.1-8)
+    - ggcorrplot (version = 0.1.4)
+    - rmarkdown (version = 2.26)
+    - knitr (version = 1.45)
 
 ## Licenses
-- This project is licensed under the MIT License. Kindly refer to [LISCENE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.
+- This project is licensed under the MIT License. Kindly refer to [LICENSE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.
