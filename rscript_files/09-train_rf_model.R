@@ -26,5 +26,4 @@ train_rf_model <- function(train_file, model_file) {
   write_rds(rf_model, model_file)
 }
 
-# Run the function
 train_rf_model(opt$train, opt$output)

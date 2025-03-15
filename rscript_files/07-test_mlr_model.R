@@ -60,5 +60,4 @@ main <- function(test_file, model_file, output_dir) {
 
 }
 
-# Run the main function
 main(opt$test, opt$model, opt$output)

@@ -1,11 +1,9 @@
 # author: DSCI 310 Group 3
 # date: 2025-03-14
 
-# Load necessary libraries
 library(docopt)
 library(httr)
 
-# Define the command-line interface
 "This script retrieves the dataset from the url.
 
 Usage: 
@@ -34,5 +32,4 @@ download_data <- function(url, output_file) {
   }
 }
 
-# Run the main function with provided arguments
 download_data(opt$url, opt$output)

@@ -43,5 +43,4 @@ main <- function(train_file, test_file, output_file) {
 
 }
 
-# Run script
 main(opt$train, opt$test, opt$output)
