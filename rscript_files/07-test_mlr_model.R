@@ -24,22 +24,8 @@ opt <- docopt(doc)
 main <- function(test_file, model_file, output_dir) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
-  test_data <- test_data %>%
-    mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk"))) %>%
-    mutate(RiskLevel = relevel(RiskLevel, ref = "low risk"))
 
   multinom_model <- readRDS(model_file)
-
-  summary_df <- tidy(multinom_model, exp = FALSE) %>%
-    rename(Term = term, Estimate = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)
-
-  write_csv(summary_df, file.path(output_dir, "mlr_model_summary_test.csv"))
-
-
-  odds_ratios_df <- tidy(multinom_model, exp = TRUE) %>%
-    rename(Term = term, OddsRatio = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)  
-
-  write_csv(odds_ratios_df, file.path(output_dir, "mlr_model_odds_ratios_test.csv"))
 
   test_predictions <- predict(multinom_model, newdata = test_data)
 

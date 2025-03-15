@@ -32,11 +32,13 @@ train_data <- train_data %>%
   saveRDS(multinom_model, file.path(output_model, "mlr_model.rds"))
 
   model_summary <- tidy(multinom_model)
-
-  model_summary <- model_summary %>%
-    mutate(odds_ratio = exp(estimate))
-
   write_csv(model_summary, file.path(output_csv, "mlr_model_summary.csv"))
+
+
+  model_summary_odds_ratios <- multinom_model %>%
+    tidy(exp = TRUE)
+
+  write_csv(model_summary_odds_ratios, file.path(output_csv, "mlr_model_odds_ratios.csv"))
 }
 
 main(opt$train, opt$output_model, opt$output_csv)
