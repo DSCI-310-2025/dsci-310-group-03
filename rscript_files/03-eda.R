@@ -19,7 +19,7 @@ library(corrplot)
 
 opt <- docopt(doc)
 
-main <- function(input, output_img, output_csv) {
+eda <- function(input, output_img, output_csv) {
   data_clean <- read_csv(input)
 
   summary_df <- data_clean %>% 
@@ -75,4 +75,4 @@ main <- function(input, output_img, output_csv) {
   ggsave(file.path(output, "correlation_values.png"), plot = cor_plot_numbers, width = 8, height = 6)
 }
 
-main(opt$input, opt$output_img, opt$output_csv)
+eda(opt$input, opt$output_img, opt$output_csv)
