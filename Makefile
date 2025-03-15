@@ -117,7 +117,11 @@ docs/index.html: reports/maternal_health_modeling.html
 
 # clean
 clean:
-	rm -rf outputs
-	rm -rf reports/maternal_health_modeling.html \
-		reports/maternal_health_modeling.pdf \
-		docs/index.html
+	rm -rf data/processed/* \
+	       data/raw/* \
+	       outputs/csv/* \
+	       outputs/images/* \
+	       outputs/models/* \
+	       reports/maternal_health_modeling.html \
+		   reports/maternal_health_modeling.pdf \
+		   docs/index.html
