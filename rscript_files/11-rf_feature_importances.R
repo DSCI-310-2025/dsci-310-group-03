@@ -22,7 +22,7 @@ main <- function(model_file, output_file) {
     rf_model <- readRDS(model_file)
 
     feature_importance_plot <- vip(rf_model) +
-        labs(title = 'Figure 4: Random Forest Feature Importance', 
+        labs(title = 'Random Forest Feature Importance', 
              x = "Feature", y = "Importance") +
         theme_minimal() +  
         theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))

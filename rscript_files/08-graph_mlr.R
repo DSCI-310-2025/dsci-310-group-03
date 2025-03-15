@@ -42,7 +42,7 @@ main <- function(test_file, model_file, output_plot) {
     blood_sugar_plot <- ggplot(prob_long, aes(x = BS, y = Probability, color = RiskLevel)) +
         geom_smooth(method = "gam", formula = y ~ s(x, bs = 'cs'), se = FALSE, size = 1) +  
         theme_minimal() +
-        labs(title = "Figure 4: Predicted Probabilities Across Blood Sugar Levels",
+        labs(title = "Predicted Probabilities Across Blood Sugar Levels",
              x = "Blood Sugar (BS)",
              y = "Predicted Probability") +
         theme(plot.title = element_text(hjust = 0.5, face = "bold"))

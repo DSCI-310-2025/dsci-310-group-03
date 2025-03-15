@@ -38,7 +38,7 @@ main <- function(input_csv, input_img, output_csv, output_img) {
   comparison_plot <- grid.arrange(
     rasterGrob(base_img), rasterGrob(mlr_img), rasterGrob(rf_img), 
     nrow = 1,
-    top = textGrob("Figure 5: Model Confusion Matrix Comparison", gp = gpar(fontsize = 15, font = 2))
+    top = textGrob("Model Confusion Matrix Comparison", gp = gpar(fontsize = 15, font = 2))
   )
 
   ggsave(file.path(output_img, "conf_matrix_comparison.png"), comparison_plot, width = 16, height = 4.5, dpi = 300)
@@ -56,7 +56,7 @@ main <- function(input_csv, input_img, output_csv, output_img) {
   accuracy_plot <- ggplot(accuracy_table, aes(x = Model, y = Accuracy, fill = Model)) +
     geom_bar(stat = "identity") +  
     geom_text(aes(label = round(Accuracy, 2)), vjust = -0.2, size = 5) +
-    labs(title = "Figure 6: Model Accuracy Comparison", x = "Model Type", y = "Accuracy (%)") +
+    labs(title = "Model Accuracy Comparison", x = "Model Type", y = "Accuracy (%)") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1), 
           plot.title = element_text(face = "bold")) 
