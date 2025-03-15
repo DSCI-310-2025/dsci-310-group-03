@@ -10,7 +10,7 @@ Usage:
 Options:
   --test=<test_file>        Path to the test dataset (CSV)
   --model=<model_file>      Path to the trained model RDS file
-  --output_plot=<output_plot>  Path to save the plot (e.g., results/blood_sugar_plot.png)
+  --output_plot=<output_plot>  Path to save the plot (e.g., images/blood_sugar_plot.png)
 " -> doc
 
 library(tidyverse)
@@ -42,13 +42,16 @@ main <- function(test_file, model_file, output_plot) {
     blood_sugar_plot <- ggplot(prob_long, aes(x = BS, y = Probability, color = RiskLevel)) +
         geom_smooth(method = "gam", formula = y ~ s(x, bs = 'cs'), se = FALSE, size = 1) +  
         theme_minimal() +
-        labs(title = "Figure 4: Predicted Probabilities Across Blood Sugar Levels",
+        labs(title = "Predicted Probabilities Across Blood Sugar Levels",
              x = "Blood Sugar (BS)",
              y = "Predicted Probability") +
         theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
 
-    ggsave(output_plot, plot = blood_sugar_plot, width = 8, height = 6, dpi = 300)
+    output_file <- file.path(output_plot, "blood_sugar_plot.png")
+
+    ggsave(output_file, plot = blood_sugar_plot, width = 8, height = 6, dpi = 300)
+    
 }
 
 main(opt$test, opt$model, opt$output_plot)

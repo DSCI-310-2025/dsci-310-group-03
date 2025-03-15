@@ -19,11 +19,16 @@ library(randomForest)
 opt <- docopt(doc)
 
 train_rf_model <- function(train_file, model_file) {
-  train_data <- read_csv(train_file, show_col_types = FALSE)
+  train_data <- read_csv(train_file, show_col_types = FALSE) %>%
+        mutate(RiskLevel = as.factor(RiskLevel))  
+
   
   rf_model <- randomForest(RiskLevel ~ ., data = train_data, ntree = 500, importance = TRUE)
   
+  model_file <- file.path(model_file, "rf_model.rds")
+  
   write_rds(rf_model, model_file)
+
 }
 
 train_rf_model(opt$train, opt$output)

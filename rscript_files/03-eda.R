@@ -4,11 +4,12 @@
 "This script performs EDA and generates visualizations.
 
 Usage:
-  03-eda.R --input=<input_file> --output=<output_dir>
+  03-eda.R --input=<input_file> --output_img=<output_img_dir> --output_csv=<output_csv_dir>
   
 Options:
   --input=<input_file>    Path to cleaned data CSV file
-  --output=<output_dir>   Directory to save output figures
+  --output_img=<output_img_dir>  Directory to save output figures
+  --output_csv=<output_csv_dir>  Directory to save summary CSV
 " -> doc
 
 library(tidyverse)
@@ -18,13 +19,17 @@ library(corrplot)
 
 opt <- docopt(doc)
 
-main <- function(input, output) {
+main <- function(input, output_img, output_csv) {
   data_clean <- read_csv(input)
 
-  # Summary
-  summary <- summary(data_clean)
 
-  write_csv(summary, output)
+  summary_df <- data_clean %>% 
+    summarise(across(where(is.numeric), list(
+      min = min, max = max, mean = mean, median = median, sd = sd
+    ), na.rm = TRUE)) %>%
+    pivot_longer(everything(), names_to = c("Feature", ".value"), names_sep = "_")
+
+  write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
 
   # Boxplot of Age by Risk Level
   bp <- ggplot(data_clean, aes(x = RiskLevel, y = Age, fill = RiskLevel)) +
@@ -32,7 +37,7 @@ main <- function(input, output) {
     theme_minimal() +
     labs(title = "Age Distribution by Risk Level", x = "Risk Level", y = "Age")
 
-  ggsave(filename = file.path(output, "age_distribution.png"), plot = bp, width = 8, height = 6)
+  ggsave(filename = file.path(output_img, "age_distribution.png"), plot = bp, width = 8, height = 6)
 
 
   data_numeric <- data_clean %>%
@@ -43,17 +48,15 @@ main <- function(input, output) {
 
   options(repr.plot.width=6.5, repr.plot.height=6)
 
-  png(filename = file.path(output, "correlation_matrix.png"), width = 800, height = 600)
+  png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
   corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
             col = colorRampPalette(c("red", "grey", "blue"))(200))
-  mtext("Figure 2b: Correlation Matrix", side = 3, line = 3, cex = 1.5, font = 2)
   dev.off()
 
-  png(filename = file.path(output, "correlation_values.png"), width = 800, height = 600)
+  png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
   corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
             col = colorRampPalette(c("red", "grey", "blue"))(200))
-  mtext("Figure 2b: Correlation Matrix Values", side = 3, line = 3, cex = 1.5, font = 2)
   dev.off()
 }
 
-main(opt$input, opt$output)
+main(opt$input, opt$output_img, opt$output_csv)

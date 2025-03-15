@@ -28,12 +28,12 @@ main <- function(test_file, model_file, output_dir) {
 
   summary_df <- tidy(multinom_model, exp = FALSE) %>%
     rename(Term = term, Estimate = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)
-  write_csv(summary_df, file.path(output_dir, "mlr_model_summary.csv"))
+  write_csv(summary_df, file.path(output_dir, "mlr_model_summary_test.csv"))
 
 
   odds_ratios_df <- tidy(multinom_model, exp = TRUE) %>%
     rename(Term = term, OddsRatio = estimate, StdError = std.error, Statistic = statistic, PValue = p.value)
-  write_csv(odds_ratios_df, file.path(output_dir, "mlr_model_odds_ratios.csv"))
+  write_csv(odds_ratios_df, file.path(output_dir, "mlr_model_odds_ratios_test.csv"))
 
   test_predictions <- predict(multinom_model, newdata = test_data)
 

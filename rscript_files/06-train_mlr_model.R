@@ -5,12 +5,12 @@
 and saves the model summary and exponentiated coefficients.
 
 Usage:
-  06-train_mlr_model.R --train=<train_file> --output=<output_file> --summary=<summary_file>
+  06-train_mlr_model.R --train=<train_file> --output_model=<output_model_dir> --output_csv=<output_csv_dir>
 
 Options:
-  --train=<train_file>     Path to the training dataset (CSV).
-  --output=<output_file>   Path to save the trained model (.rds).
-  --summary=<summary_file> Path to save model summary and coefficients (CSV).
+  --train=<train_file>           Path to the training dataset (CSV).
+  --output_model=<output_model_dir>  Directory to save the trained model.
+  --output_csv=<output_csv_dir>  Directory to save model summary CSV.
 " -> doc
 
 library(tidyverse)
@@ -20,19 +20,19 @@ library(broom)
 
 opt <- docopt(doc)
 
-main <- function(train_file, output_file, summary_file) {
-  train_data <- read_csv(train_file)
+main <- function(train, output_model, output_csv) {
+  train_data <- read_csv(train)
 
   multinom_model <- multinom(RiskLevel ~ ., data = train_data)
 
-  saveRDS(multinom_model, output_file)
+  saveRDS(multinom_model, file.path(output_model, "mlr_model.rds"))
 
   model_summary <- tidy(multinom_model)
 
   model_summary <- model_summary %>%
     mutate(odds_ratio = exp(estimate))
 
-  write_csv(model_summary, summary_file)
+  write_csv(model_summary, file.path(output_csv, "mlr_model_summary.csv"))
 }
 
-main(opt$train, opt$output, opt$summary)
+main(opt$train, opt$output_model, opt$output_csv)
