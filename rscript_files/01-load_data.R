@@ -3,33 +3,56 @@
 
 library(docopt)
 library(httr)
+library(readr)
+library(zip)
 
-"This script retrieves the dataset from the url.
+"This script downloads and extracts the dataset from a predefined URL.
 
 Usage: 
-  01-load_data.R --url=<url> --output=<output_file>
+  01-load_data.R --output=<output_dir>
   
 Options:
-  --url=<url>           URL of the dataset to download
-  --output=<output_file>  Path to save the downloaded dataset
+  --output=<output_dir>   Directory to save the extracted dataset
 " -> doc
 
 opt <- docopt(doc)
 
-download_data <- function(url, output_file) {
-  response <- httr::GET(url)
-  
+download_and_extract <- function(output_dir) {
+  url <- "https://archive.ics.uci.edu/static/public/863/maternal+health+risk.zip"
+  zip_path <- file.path(output_dir, "maternal_health_risk.zip")
+  csv_output_path <- file.path(output_dir, "maternal_health_risk_data.csv")
+
+
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+
+
+  response <- httr::GET(url, write_disk(zip_path, overwrite = TRUE))
+
   if (httr::status_code(response) == 200) {
-    data_text <- httr::content(response, as = "text", encoding = "UTF-8")
+    message("Download successful: ", zip_path)
     
-    data <- read_csv(data_text, show_col_types = FALSE)
+
+    unzip(zip_path, exdir = output_dir)
     
-    write_csv(data, output_file)
+
+    extracted_files <- list.files(output_dir, pattern = "\\.csv$", full.names = TRUE)
     
-    message("Dataset downloaded and saved successfully to: ", output_file)
+    if (length(extracted_files) == 0) {
+      stop("No CSV file found in the extracted zip.")
+    }
+    
+    extracted_csv <- extracted_files[1]  
+    
+
+    file.rename(extracted_csv, csv_output_path)
+    
+    message("Extracted CSV renamed to: ", csv_output_path)
+    
   } else {
     stop("Failed to download the dataset. HTTP status code: ", httr::status_code(response))
   }
 }
 
-download_data(opt$url, opt$output)
+download_and_extract(opt$output)

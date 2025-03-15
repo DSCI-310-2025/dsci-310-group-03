@@ -15,8 +15,7 @@ Options:
 " -> doc
 
 library(tidyverse)
-library(nnet)
-library(broom)
+library(randomForest)
 library(docopt)
 
 opt <- docopt(doc)
@@ -26,7 +25,8 @@ main <- function(test_file, model_file, output_dir) {
 
   rf_model <- readRDS(model_file)
 
-  rf_predictions <- predict(rf_model, test_data)
+  test_features <- test_data %>% select(-RiskLevel)
+  rf_predictions <- predict(rf_model, newdata = test_features, type = "class")
 
   rf_accuracy <- mean(rf_predictions == test_data$RiskLevel)
 
