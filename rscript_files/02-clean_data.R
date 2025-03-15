@@ -23,15 +23,15 @@ main <- function(input, output) {
     mutate(RiskLevel = as.factor(RiskLevel)) %>% 
     drop_na()
 
-  write_csv(data_clean, output)
+  write_csv(data_clean, file.path(output, "cleaned_data.csv"))
 
   data_nan <- tibble(feature = names(data), na = colSums(is.na(data)))
 
-  write_csv(data_nan, output)
+  write_csv(data_nan, file.path(output, "nan_data.csv"))
 
   data_target_classes <- data %>% distinct(RiskLevel)
 
-  write_csv(data_target_classes, output)
+  write_csv(data_target_classes, file.path(output, "target_classes.csv"))
 }
 
 main(opt$input, opt$output)
