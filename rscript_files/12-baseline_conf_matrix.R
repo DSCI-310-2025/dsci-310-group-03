@@ -25,7 +25,6 @@ baseline_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
   pred_data <- read_csv(pred_file, show_col_types = FALSE)
 
-
   base_conf_matrix <- confusionMatrix(as.factor(pred_data$Predicted_Class), as.factor(test_data$RiskLevel))
 
   base_table <- as.data.frame(base_conf_matrix$table)

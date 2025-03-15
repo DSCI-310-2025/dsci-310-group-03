@@ -34,10 +34,6 @@ eda <- function(input, output_img, output_csv) {
 
   write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
 
-  data_clean = data_clean %>% 
-        mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk")))
-
-
   bp <- ggplot(data_clean, aes(x = RiskLevel, y = Age, fill = RiskLevel)) +
     geom_boxplot() +
     theme_minimal() +
@@ -52,6 +48,7 @@ eda <- function(input, output_img, output_csv) {
   
   cor_matrix <- cor(data_numeric, use = "complete.obs")
 
+  write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
 
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "circle", 
