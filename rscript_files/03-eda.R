@@ -60,7 +60,6 @@ eda <- function(input, output_img, output_csv) {
   dev.off()
   "
 
-    # Plot 1: Only ellipses
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "ellipse", 
                                   type = "upper", 
@@ -68,7 +67,6 @@ eda <- function(input, output_img, output_csv) {
 
   ggsave(file.path(output, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height = 6)
 
-  # Plot 2: Only numbers
   cor_plot_numbers <- ggcorrplot(cor_matrix, 
                                 method = "square", 
                                 type = "upper", 
