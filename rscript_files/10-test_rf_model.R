@@ -20,7 +20,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(test_file, model_file, output_dir) {
+test_rf_model <- function(test_file, model_file, output_dir) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
   rf_model <- readRDS(model_file)
@@ -47,4 +47,4 @@ main <- function(test_file, model_file, output_dir) {
   }
 }
 
-main(opt$test, opt$model, opt$output)
+test_rf_model(opt$test, opt$model, opt$output)

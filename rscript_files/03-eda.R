@@ -19,7 +19,7 @@ library(corrplot)
 
 opt <- docopt(doc)
 
-main <- function(input, output_img, output_csv) {
+eda <- function(input, output_img, output_csv) {
   data_clean <- read_csv(input)
 
 
@@ -46,6 +46,7 @@ main <- function(input, output_img, output_csv) {
 
   cor_matrix <- cor(data_numeric)
 
+  "
   options(repr.plot.width=6.5, repr.plot.height=6)
 
   png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
@@ -57,6 +58,24 @@ main <- function(input, output_img, output_csv) {
   corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
             col = colorRampPalette(c("red", "grey", "blue"))(200))
   dev.off()
+  "
+
+    # Plot 1: Only ellipses
+  cor_plot_ellipses <- ggcorrplot(cor_matrix, 
+                                  method = "ellipse", 
+                                  type = "upper", 
+                                  colors = c("red", "white", "blue"))
+
+  ggsave(file.path(output, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height = 6)
+
+  # Plot 2: Only numbers
+  cor_plot_numbers <- ggcorrplot(cor_matrix, 
+                                method = "square", 
+                                type = "upper", 
+                                lab = TRUE,
+                                lab_size = 4)
+
+  ggsave(file.path(output, "correlation_values.png"), plot = cor_plot_numbers, width = 8, height = 6)
 }
 
-main(opt$input, opt$output_img, opt$output_csv)
+eda(opt$input, opt$output_img, opt$output_csv)

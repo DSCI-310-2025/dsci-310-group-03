@@ -21,7 +21,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(test_file, pred_file, output_csv, output_img) {
+ran_for_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
   pred_data <- read_csv(pred_file, show_col_types = FALSE)
 
@@ -53,4 +53,4 @@ main <- function(test_file, pred_file, output_csv, output_img) {
   ggsave(file.path(output_img, "rf_conf_matrix.png"), rf_visualization, width = 8, height = 6, dpi = 300)
 }
 
-main(opt$test, opt$predictions, opt$output_csv, opt$output_img)
+ran_for_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

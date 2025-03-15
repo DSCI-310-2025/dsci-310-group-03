@@ -20,7 +20,7 @@ library(broom)
 
 opt <- docopt(doc)
 
-main <- function(train, output_model, output_csv) {
+train_mlr_model <- function(train, output_model, output_csv) {
   train_data <- read_csv(train)
 
   multinom_model <- multinom(RiskLevel ~ ., data = train_data)
@@ -35,4 +35,4 @@ main <- function(train, output_model, output_csv) {
   write_csv(model_summary, file.path(output_csv, "mlr_model_summary.csv"))
 }
 
-main(opt$train, opt$output_model, opt$output_csv)
+train_mlr_model(opt$train, opt$output_model, opt$output_csv)

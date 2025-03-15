@@ -21,7 +21,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(test_file, pred_file, output_csv, output_img) {
+baseline_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
   pred_data <- read_csv(pred_file, show_col_types = FALSE)
 
@@ -54,4 +54,4 @@ main <- function(test_file, pred_file, output_csv, output_img) {
 
 }
 
-main(opt$test, opt$predictions, opt$output_csv, opt$output_img)
+baseline_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

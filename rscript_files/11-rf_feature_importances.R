@@ -18,7 +18,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(model_file, output_file) {
+rf_feature_importances <- function(model_file, output_file) {
     rf_model <- readRDS(model_file)
 
     feature_importance_plot <- vip(rf_model) +
@@ -33,4 +33,4 @@ main <- function(model_file, output_file) {
 
 }
 
-main(opt$model, opt$output)
+rf_feature_importances(opt$model, opt$output)
