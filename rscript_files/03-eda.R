@@ -43,6 +43,16 @@ eda <- function(input, output_img, output_csv) {
     select(-RiskLevel)
 
   cor_matrix <- cor(data_numeric)
+
+  cor_values <- cor_matrix %>%
+    as.data.frame() %>%
+    rownames_to_column("Feature_1") %>%
+    pivot_longer(-Feature_1, names_to = "Feature_2", values_to = "Correlation") %>%
+    filter(Feature_1 != Feature_2) %>%
+    arrange(desc(abs(Correlation)))
+
+  write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
+
   
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "ellipse", 
