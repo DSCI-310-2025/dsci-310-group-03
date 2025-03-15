@@ -14,8 +14,8 @@ Options:
 
 library(tidyverse)
 library(ggplot2)
+library(ggcorrplot)  
 library(docopt)
-library(corrplot)
 
 opt <- docopt(doc)
 
@@ -24,8 +24,12 @@ eda <- function(input, output_img, output_csv) {
 
   summary_df <- data_clean %>% 
     summarise(across(where(is.numeric), list(
-      min = min, max = max, mean = mean, median = median, sd = sd
-    ), na.rm = TRUE)) %>%
+      min = \(x) min(x, na.rm = TRUE), 
+      max = \(x) max(x, na.rm = TRUE), 
+      mean = \(x) mean(x, na.rm = TRUE), 
+      median = \(x) median(x, na.rm = TRUE), 
+      sd = \(x) sd(x, na.rm = TRUE)
+    ))) %>%
     pivot_longer(everything(), names_to = c("Feature", ".value"), names_sep = "_")
 
   write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
@@ -41,33 +45,30 @@ eda <- function(input, output_img, output_csv) {
   data_numeric <- data_clean %>%
     mutate(RiskLevel_numeric = as.numeric(RiskLevel)) %>%
     select(-RiskLevel)
-
-  cor_matrix <- cor(data_numeric)
-
-  cor_values <- cor_matrix %>%
-    as.data.frame() %>%
-    rownames_to_column("Feature_1") %>%
-    pivot_longer(-Feature_1, names_to = "Feature_2", values_to = "Correlation") %>%
-    filter(Feature_1 != Feature_2) %>%
-    arrange(desc(abs(Correlation)))
+  
+  cor_matrix <- cor(data_numeric, use = "complete.obs")
 
   write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
 
-  
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
-                                  method = "ellipse", 
+                                  method = "circle", 
                                   type = "upper", 
+                                  lab = FALSE, 
+                                  outline.color = "white", 
                                   colors = c("red", "white", "blue"))
+  
+  ggsave(file.path(output_img, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height = 6)
 
-  ggsave(file.path(output, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height =6)
 
   cor_plot_numbers <- ggcorrplot(cor_matrix, 
                                 method = "square", 
                                 type = "upper", 
-                                lab = TRUE,
-                                lab_size = 4)
+                                lab = TRUE, 
+                                lab_size = 4, 
+                                outline.color = "white", 
+                                colors = c("red", "white", "blue"))
 
-  ggsave(file.path(output, "correlation_values.png"), plot = cor_plot_numbers, width = 8, height = 6)
+  ggsave(file.path(output_img, "correlation_values.png"), plot = cor_plot_numbers, width = 8, height = 6)
 }
 
 eda(opt$input, opt$output_img, opt$output_csv)
