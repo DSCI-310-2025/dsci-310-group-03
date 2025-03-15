@@ -19,9 +19,8 @@ library(corrplot)
 
 opt <- docopt(doc)
 
-eda <- function(input, output_img, output_csv) {
+main <- function(input, output_img, output_csv) {
   data_clean <- read_csv(input)
-
 
   summary_df <- data_clean %>% 
     summarise(across(where(is.numeric), list(
@@ -46,26 +45,26 @@ eda <- function(input, output_img, output_csv) {
 
   cor_matrix <- cor(data_numeric)
 
-  "
-  options(repr.plot.width=6.5, repr.plot.height=6)
+  
+  #options(repr.plot.width=6.5, repr.plot.height=6)
 
-  png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
-  corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
-            col = colorRampPalette(c("red", "grey", "blue"))(200))
-  dev.off()
+  #png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
+  #corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
+  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
+  #dev.off()
 
-  png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
-  corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
-            col = colorRampPalette(c("red", "grey", "blue"))(200))
-  dev.off()
-  "
-
+  #png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
+  #corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
+  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
+  #dev.off()
+  
+  
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "ellipse", 
                                   type = "upper", 
                                   colors = c("red", "white", "blue"))
 
-  ggsave(file.path(output, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height = 6)
+  ggsave(file.path(output, "correlation_matrix.png"), plot = cor_plot_ellipses, width = 8, height =6)
 
   cor_plot_numbers <- ggcorrplot(cor_matrix, 
                                 method = "square", 
@@ -76,4 +75,4 @@ eda <- function(input, output_img, output_csv) {
   ggsave(file.path(output, "correlation_values.png"), plot = cor_plot_numbers, width = 8, height = 6)
 }
 
-eda(opt$input, opt$output_img, opt$output_csv)
+main(opt$input, opt$output_img, opt$output_csv)
