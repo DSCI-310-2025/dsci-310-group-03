@@ -45,19 +45,14 @@ eda <- function(input, output_img, output_csv) {
 
   cor_matrix <- cor(data_numeric)
 
-  
-  #options(repr.plot.width=6.5, repr.plot.height=6)
+  cor_values <- cor_matrix %>%
+    as.data.frame() %>%
+    rownames_to_column("Feature_1") %>%
+    pivot_longer(-Feature_1, names_to = "Feature_2", values_to = "Correlation") %>%
+    filter(Feature_1 != Feature_2) %>%
+    arrange(desc(abs(Correlation)))
 
-  #png(filename = file.path(output_img, "correlation_matrix.png"), width = 800, height = 600)
-  #corrplot(cor_matrix, method = "ellipse", type = "upper", tl.cex = 0.8, tl.col = "black",
-  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
-  #dev.off()
-
-  #png(filename = file.path(output_img, "correlation_values.png"), width = 800, height = 600)
-  #corrplot(cor_matrix, method = "number", type = "upper", number.cex = 1.5, tl.cex = 0.8, tl.col = "black",
-  #          col = colorRampPalette(c("red", "grey", "blue"))(200))
-  #dev.off()
-  
+  write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
   
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "ellipse", 
