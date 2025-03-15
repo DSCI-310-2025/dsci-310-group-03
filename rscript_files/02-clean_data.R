@@ -16,7 +16,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(input, output) {
+clean_data <- function(input, output) {
   data <- read_csv(input)
 
   data_clean <- data %>%
@@ -34,4 +34,4 @@ main <- function(input, output) {
   write_csv(data_target_classes, file.path(output, "target_classes.csv"))
 }
 
-main(opt$input, opt$output)
+clean_data(opt$input, opt$output)

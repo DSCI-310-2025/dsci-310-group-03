@@ -23,7 +23,7 @@ library(png)
 
 opt <- docopt(doc)
 
-main <- function(input_csv, input_img, output_csv, output_img) {
+model_comparison <- function(input_csv, input_img, output_csv, output_img) {
   
   base_table <- read_csv(file.path(input_csv, "baseline_conf_matrix.csv"), show_col_types = FALSE)
   mlr_table <- read_csv(file.path(input_csv, "mlr_conf_matrix.csv"), show_col_types = FALSE)
@@ -65,4 +65,4 @@ main <- function(input_csv, input_img, output_csv, output_img) {
   ggsave(file.path(output_img, "accuracy_comparison.png"), accuracy_plot, width = 9, height = 6, dpi = 300)
 }
 
-main(opt$input_csv, opt$input_img, opt$output_csv, opt$output_img)
+model_comparison(opt$input_csv, opt$input_img, opt$output_csv, opt$output_img)

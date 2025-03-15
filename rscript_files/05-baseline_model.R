@@ -18,7 +18,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(train_file, test_file, output_dir) {
+test_baseline_model <- function(train_file, test_file, output_dir) {
   train_data <- read_csv(train_file, show_col_types = FALSE)
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
@@ -55,4 +55,4 @@ main <- function(train_file, test_file, output_dir) {
   
 }
 
-main(opt$train, opt$test, opt$output)
+test_baseline_model(opt$train, opt$test, opt$output)

@@ -18,7 +18,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(input, output) {
+split_data <- function(input, output) {
     set.seed(123) 
 
     data_clean <- read_csv(input)
@@ -32,4 +32,4 @@ main <- function(input, output) {
 
 }
 
-main(opt$input, opt$output)
+split_data(opt$input, opt$output)

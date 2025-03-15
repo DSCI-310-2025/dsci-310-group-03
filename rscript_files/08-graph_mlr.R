@@ -20,7 +20,7 @@ library(docopt)
 
 opt <- docopt(doc)
 
-main <- function(test_file, model_file, output_plot) {
+graph_blood_sugar <- function(test_file, model_file, output_plot) {
 
     set.seed(123)
 
@@ -54,4 +54,4 @@ main <- function(test_file, model_file, output_plot) {
     
 }
 
-main(opt$test, opt$model, opt$output_plot)
+graph_blood_sugar(opt$test, opt$model, opt$output_plot)
