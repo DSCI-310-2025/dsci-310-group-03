@@ -1,9 +1,6 @@
-FROM quay.io/jupyter/r-notebook:notebook-7.3.2
+FROM rocker/rstudio:4.4.2
 
-WORKDIR /home/jovyan
-
-RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.com/'); \
-          remotes::install_version('tidyverse', version = '2.0.0', repos = 'https://cran.rstudio.com/'); \
+RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('ggplot2', version = '3.5.1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('lattice', version = '0.22-6', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('corrplot', version = '0.95', repos = 'https://cran.rstudio.com/'); \
@@ -22,15 +19,17 @@ RUN R -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.c
           remotes::install_version('png', version = '0.1-8', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('ggcorrplot', version = '0.1.4', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('rmarkdown', version = '2.26', repos = 'https://cran.rstudio.com/'); \
+          remotes::install_version('httr', version = '1.4.7', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/');"
 
 
-COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE data/ reports/maternal_health_modeling.ipynb /home/jovyan/
+COPY README.md /home/rstudio/README.md
+COPY CODE_OF_CONDUCT.md /home/rstudio/CODE_OF_CONDUCT.md
+COPY CONTRIBUTING.md /home/rstudio/CONTRIBUTING.md
+COPY data /home/rstudio/data
+COPY reports /home/rstudio/reports
+COPY rscript_files /home/rstudio/rscript_files
+COPY Makefile /home/rstudio/Makefile
 
-USER root
-RUN fix-permissions /home/jovyan
-USER jovyan
 
-EXPOSE 8888
 
-CMD ["start-notebook.sh", "--NotebookApp.token=''"]
