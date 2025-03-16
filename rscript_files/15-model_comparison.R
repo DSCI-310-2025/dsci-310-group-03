@@ -21,10 +21,12 @@ library(grid)
 library(docopt)
 library(png)
 
+
 opt <- docopt(doc)
 
 model_comparison <- function(input_csv, input_img, output_csv, output_img) {
   
+
   base_table <- read_csv(file.path(input_csv, "baseline_conf_matrix.csv"), show_col_types = FALSE)
   mlr_table <- read_csv(file.path(input_csv, "mlr_conf_matrix.csv"), show_col_types = FALSE)
   rf_table <- read_csv(file.path(input_csv, "rf_conf_matrix.csv"), show_col_types = FALSE)
@@ -35,13 +37,12 @@ model_comparison <- function(input_csv, input_img, output_csv, output_img) {
   rf_img <- png::readPNG(file.path(input_img, "rf_conf_matrix.png"))
 
 
-  comparison_plot <- grid.arrange(
+  png(file.path(output_img, "conf_matrix_comparison.png"), width = 16, height = 4.5, units = "in", res = 300)
+  grid.arrange(
     rasterGrob(base_img), rasterGrob(mlr_img), rasterGrob(rf_img), 
     nrow = 1,
     top = textGrob("Model Confusion Matrix Comparison", gp = gpar(fontsize = 15, font = 2))
   )
-
-  ggsave(file.path(output_img, "conf_matrix_comparison.png"), comparison_plot, width = 16, height = 4.5, dpi = 300)
 
 
   accuracy_table <- read_csv(file.path(input_csv, "model_accuracies.csv"), show_col_types = FALSE)
@@ -63,6 +64,7 @@ model_comparison <- function(input_csv, input_img, output_csv, output_img) {
 
 
   ggsave(file.path(output_img, "accuracy_comparison.png"), accuracy_plot, width = 9, height = 6, dpi = 300)
+
 }
 
 model_comparison(opt$input_csv, opt$input_img, opt$output_csv, opt$output_img)
