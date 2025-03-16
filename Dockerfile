@@ -1,6 +1,5 @@
 FROM rocker/rstudio:4.4.2
 
-USER root
 
 RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('tidyverse', version = '2.0.0', repos = 'https://cran.rstudio.com/'); \
@@ -29,7 +28,6 @@ COPY rscript_files /home/rstudio/rscript_files/
 COPY data /home/rstudio/data/
 COPY outputs /home/rstudio/outputs/
 
-USER rstudio
      
 
 
