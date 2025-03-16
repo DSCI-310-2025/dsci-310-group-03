@@ -36,14 +36,14 @@ These findings suggest that body temperature and blood sugar levels are importan
 To replicate this analysis, kindly follow the instructions below:
 1. Clone repository
 2. Set up environment
-    - Install [Docker](https://www.docker.com/get-started/)
+    - Install and open [Docker](https://www.docker.com/get-started/)
     - Build the docker image
     ``` 
-    docker-compose build
+    docker compose build
     ```
     - Run the docker container
     ```
-    docker-compose up
+    docker compose up
     ```
 3. Run analysis
     - Open your preferred web browser to access Jupyter Lab via http://localhost:8787
@@ -66,7 +66,6 @@ To replicate this analysis, kindly follow the instructions below:
     - gridExtra (version = 2.3)
     - vip (version = 0.4.1)
     - docopt (version = 0.7.1)
-    - httr (version = 1.4.7)
     - readr (version = 2.1.5)
     - zip (version = 2.3.1)
     - mgcv (version = 1.9-1)
