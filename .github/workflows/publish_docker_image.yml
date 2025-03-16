@@ -22,6 +22,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -38,7 +43,9 @@ jobs:
             type=raw, value=latest
 
       - name: Build and push Docker image
-        run: |
-          docker-compose build
-          docker tag mengen123321/dsci310_group3_m1:latest ${{ steps.meta.outputs.tags }}
-          docker push mengen123321/dsci310_group3_m1:latest
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          file: ./Dockerfile
