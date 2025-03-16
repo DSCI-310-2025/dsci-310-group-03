@@ -3,13 +3,13 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: testing
+    image: rocker/rstudio:4.4.2
     ports:
       - "8787:8787"
     volumes:
       - .:/home/rstudio/work
     environment:
-      PASSWORD: "password"
+      PASSWORD: "dsci310"
       DISABLE_AUTH: true
 
       
