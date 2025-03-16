@@ -1,6 +1,9 @@
 services:
   analysis-env:
-    image: httr
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: testing
     ports:
       - "8787:8787"
     volumes:
