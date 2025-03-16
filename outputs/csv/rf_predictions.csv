@@ -55,7 +55,7 @@ ID,Predicted_Class
 54,low risk
 55,low risk
 56,low risk
-57,high risk
+57,low risk
 58,high risk
 59,low risk
 60,low risk
@@ -116,7 +116,7 @@ ID,Predicted_Class
 115,high risk
 116,mid risk
 117,low risk
-118,mid risk
+118,high risk
 119,mid risk
 120,mid risk
 121,mid risk
