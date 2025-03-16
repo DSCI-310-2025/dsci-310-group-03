@@ -7,8 +7,8 @@ all: data/raw/maternal_health_risk.zip \
      data/raw/maternal_health_risk_data.csv \
      data/processed/cleaned_data.csv \
 	 outputs/csv/eda_summary.csv \
-	 outputs/images/age_distribution.png \ 
-	 outputs/images/correlation_matrix.png \ 
+	 outputs/images/age_distribution.png \
+	 outputs/images/correlation_matrix.png \
 	 outputs/images/correlation_values.png \
      data/processed/train_data.csv \
      data/processed/test_data.csv \
@@ -101,9 +101,9 @@ outputs/csv/mlr_conf_matrix.csv outputs/images/mlr_conf_matrix.png: rscript_file
 	--output_csv="outputs/csv" --output_img="outputs/images"
 
 # RF confusion matrix
-outputs/csv/rf_conf_matrix.csv outputs/images/rf_conf_matrix.png: rscript_files/14-rf_conf_matrix.R data/processed/test_data.csv outputs/csv/rf_predictions.csv
-	Rscript rscript_files/14-rf_conf_matrix.R --test="data/processed/test_data.csv" --predictions="outputs/csv/rf_predictions.csv" \
-	--output_csv="outputs/csv/" --output_img="outputs/images/"
+outputs/csv/rf_predictions.csv outputs/csv/model_accuracies.csv: rscript_files/10-test_rf_model.R data/processed/test_data.csv outputs/models/rf_model.rds
+	Rscript rscript_files/10-test_rf_model.R --test="data/processed/test_data.csv" --model="outputs/models/rf_model.rds" \
+	--output="outputs/csv/"
 
 # model comparison
 outputs/images/conf_matrix_comparison.png outputs/csv/model_accuracies.csv outputs/csv/accuracy_comparison.csv outputs/images/accuracy_comparison.png: rscript_files/15-model_comparison.R outputs/csv outputs/images
