@@ -10,6 +10,7 @@ on:
   push:
     paths:
       - 'Dockerfile'
+      - 'docker-compose.yml'
       - .github/workflows/publish_docker_image.yml # or whatever you named the file
       - 'conda-linux-64.lock'
 
@@ -37,10 +38,7 @@ jobs:
             type=raw, value=latest
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+        run: |
+          docker-compose build
+          docker tag mengen123321/dsci310_group3_m1:latest ${{ steps.meta.outputs.tags }}
+          docker push mengen123321/dsci310_group3_m1:latest
