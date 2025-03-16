@@ -22,6 +22,9 @@ opt <- docopt(doc)
 eda <- function(input, output_img, output_csv) {
   data_clean <- read_csv(input)
 
+  data_clean$RiskLevel <- factor(data_clean$RiskLevel, levels = c("low risk", "mid risk", "high risk"))
+
+
   summary_df <- data_clean %>% 
     summarise(across(where(is.numeric), list(
       min = \(x) min(x, na.rm = TRUE), 
@@ -45,8 +48,15 @@ eda <- function(input, output_img, output_csv) {
   data_numeric <- data_clean %>%
     mutate(RiskLevel_numeric = as.numeric(RiskLevel)) %>%
     select(-RiskLevel)
-  
+   
   cor_matrix <- cor(data_numeric, use = "complete.obs")
+
+  cor_values <- cor_matrix %>%
+    as.data.frame() %>%
+    rownames_to_column("Feature_1") %>%
+    pivot_longer(-Feature_1, names_to = "Feature_2", values_to = "Correlation") %>%
+    filter(Feature_1 != Feature_2) %>%
+    arrange(desc(abs(Correlation)))
 
   write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
 
