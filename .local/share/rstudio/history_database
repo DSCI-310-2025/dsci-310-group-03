@@ -1,0 +1,17 @@
+0:install.packages("corrplot", repos = "https://cloud.r-project.org/")
+0:install.packages("caret", repos = "https://cloud.r-project.org/")
+0:install.packages("randomForest", repos = "https://cloud.r-project.org/")
+0:exit()
+0:exit
+0:end
+0:quit()
+0:install.packages('corrplot')
+0:quit()
+0:install.packages("ggcorrplot")
+0:q()
+0:install.packages("vip")
+0:q()
+0:install.packages("gridExtra")
+0:q()
+0:install.packages("png")
+0:q()

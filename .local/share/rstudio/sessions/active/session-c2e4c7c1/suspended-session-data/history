@@ -1,0 +1,17 @@
+install.packages("corrplot", repos = "https://cloud.r-project.org/")
+install.packages("caret", repos = "https://cloud.r-project.org/")
+install.packages("randomForest", repos = "https://cloud.r-project.org/")
+exit()
+exit
+end
+quit()
+install.packages('corrplot')
+quit()
+install.packages("ggcorrplot")
+q()
+install.packages("vip")
+q()
+install.packages("gridExtra")
+q()
+install.packages("png")
+q()

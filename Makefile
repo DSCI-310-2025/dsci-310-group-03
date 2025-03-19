@@ -100,6 +100,10 @@ outputs/csv/mlr_conf_matrix.csv outputs/images/mlr_conf_matrix.png: rscript_file
 	Rscript rscript_files/13-mlr_conf_matrix.R --test="data/processed/test_data.csv" --predictions="outputs/csv/mlr_test_probabilities.csv" \
 	--output_csv="outputs/csv" --output_img="outputs/images"
 
+outputs/csv/rf_conf_matrix.csv outputs/images/rf_conf_matrix.png: rscript_files/14-rf_conf_matrix.R data/processed/test_data.csv outputs/csv/rf_predictions.csv
+	Rscript rscript_files/14-rf_conf_matrix.R --test="data/processed/test_data.csv" --predictions="outputs/csv/rf_predictions.csv" \
+	--output_csv="outputs/csv" --output_img="outputs/images"
+
 # RF confusion matrix
 outputs/csv/rf_predictions.csv outputs/csv/model_accuracies.csv: rscript_files/10-test_rf_model.R data/processed/test_data.csv outputs/models/rf_model.rds
 	Rscript rscript_files/10-test_rf_model.R --test="data/processed/test_data.csv" --model="outputs/models/rf_model.rds" \

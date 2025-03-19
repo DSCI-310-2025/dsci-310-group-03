@@ -1,15 +1,15 @@
 services:
   analysis-env:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    image: rocker/rstudio:4.4.2
+    image: mengen123321/dsci310_group3_m1:latest
     ports:
-      - "8787:8787"
+      - "8788:8787"
     volumes:
-      - .:/home/rstudio/work
+      - ./data:/home/rstudio/data
+      - ./outputs:/home/rstudio/outputs
+      - ./reports:/home/rstudio/reports
+      - ./rscript_files:/home/rstudio/rscript_files
+      - ./Makefile:/home/rstudio/Makefile
+      - ./docs:/home/rstudio/docs
     environment:
-      PASSWORD: "dsci310"
-      DISABLE_AUTH: true
-
-      
+      DISABLE_AUTH: "true"
+    command: /init

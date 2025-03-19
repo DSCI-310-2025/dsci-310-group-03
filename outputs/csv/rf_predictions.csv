@@ -69,7 +69,7 @@ ID,Predicted_Class
 68,low risk
 69,high risk
 70,low risk
-71,mid risk
+71,low risk
 72,low risk
 73,mid risk
 74,mid risk
@@ -152,7 +152,7 @@ ID,Predicted_Class
 151,low risk
 152,mid risk
 153,mid risk
-154,mid risk
+154,low risk
 155,low risk
 156,mid risk
 157,mid risk
