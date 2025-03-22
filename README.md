@@ -36,21 +36,17 @@ These findings suggest that body temperature and blood sugar levels are importan
 To replicate this analysis, kindly follow the instructions below:
 1. Clone repository
 2. Set up environment
-    - Install and open [Docker](https://www.docker.com/get-started/)
-    - Build the docker image
-    ``` 
-    docker compose build
-    ```
     - Run the docker container
     ```
-    docker compose up
+    docker-compose up
     ```
 3. Run analysis
-    - Open your preferred web browser to access Jupyter Lab via http://localhost:8787
+    - Open your preferred web browser to access Jupyter Lab via http://localhost:8788
     - Run Makefile in terminal
     ```
-    make
+    make all
     ```
+The html file can be found inside the docs folder
 
 ## List of Dependencies
 - R version: 4.4.2

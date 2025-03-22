@@ -1,0 +1,17 @@
+]0;~[?2004hrstudio@c025dc59fc11:~$ [Krstudio@c025dc59fc11:~$ make
+[?2004lMakefile:70: warning: overriding recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:60: warning: ignoring old recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:85: warning: overriding recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:70: warning: ignoring old recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:105: warning: overriding recipe for target 'outputs/csv/rf_predictions.csv'
+Makefile:85: warning: ignoring old recipe for target 'outputs/csv/rf_predictions.csv'
+Makefile:105: warning: overriding recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:85: warning: ignoring old recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:110: warning: overriding recipe for target 'outputs/csv/model_accuracies.csv'
+Makefile:105: warning: ignoring old recipe for target 'outputs/csv/model_accuracies.csv'
+Rscript rscript_files/11-rf_feature_importances.R --model="outputs/models/rf_model.rds" \
+--output="outputs/images/"
+Error in library(tidyverse) : there is no package called ‘tidyverse’
+Execution halted
+make: *** [Makefile:90: outputs/images/rf_feature_importances.png] Error 1
+]0;~[?2004hrstudio@c025dc59fc11:~$ 
