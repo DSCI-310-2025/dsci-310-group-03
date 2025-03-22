@@ -50,3 +50,9 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+.config
+.local
+.ipynb_checkpoints
+.Rproj.user
+.vscode
