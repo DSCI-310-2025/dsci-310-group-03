@@ -18,18 +18,23 @@ library(tidyverse)
 library(nnet)
 library(broom)
 library(docopt)
+source("functions/Testing.R")
 
 opt <- docopt(doc)
 
 mlr_model_test <- function(test_file, model_file, output_dir) {
+  
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
+  #multinom_model <- readRDS(model_file)
 
-  multinom_model <- readRDS(model_file)
+  #test_predictions <- predict(multinom_model, newdata = test_data)
 
-  test_predictions <- predict(multinom_model, newdata = test_data)
+  # test_probabilities <- predict(multinom_model, newdata = test_data, type = "probs")
 
-  test_probabilities <- predict(multinom_model, newdata = test_data, type = "probs")
+  test_results <- testing(model_file, test_data, return_probs = TRUE)
+  test_predictions <- test_results$predictions
+  test_probabilities <- test_results$probabilities
 
   test_probabilities_df <- as_tibble(test_probabilities) %>% 
     mutate(Predicted_Class = test_predictions, ID = 1:nrow(test_data)) %>% 

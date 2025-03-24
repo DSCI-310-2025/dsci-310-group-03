@@ -1,4 +1,4 @@
 Model,Accuracy
 Baseline,40.09901
 Multinomial Logistic Regression,61.38614
-Random Forest,88.11881
+Random Forest,89.10891
