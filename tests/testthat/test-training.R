@@ -1,0 +1,35 @@
+library(testthat)
+library(nnet)
+library(randomForest)
+
+source("../../R/training.R")
+
+test_that("train_mlr_model returns a multinomial regression model object", {
+  df <- data.frame(
+    Age = c(25, 30, 35),
+    SystolicBP = c(120, 130, 110),
+    DiastolicBP = c(80, 85, 75),
+    BS = c(5.6, 6.2, 4.9),
+    BodyTemp = c(98.6, 99.1, 97.9),
+    HeartRate = c(72, 80, 76),
+    RiskLevel = factor(c("low risk", "mid risk", "high risk"))
+  )
+  
+  model <- train_mlr_model(df)
+  expect_s3_class(model, "nnet")
+})
+
+test_that("train_rf_model returns a random forest model object", {
+  df <- data.frame(
+    Age = c(25, 30, 35),
+    SystolicBP = c(120, 130, 110),
+    DiastolicBP = c(80, 85, 75),
+    BS = c(5.6, 6.2, 4.9),
+    BodyTemp = c(98.6, 99.1, 97.9),
+    HeartRate = c(72, 80, 76),
+    RiskLevel = factor(c("low risk", "mid risk", "high risk"))
+  )
+  
+  model <- train_rf_model(df)
+  expect_s3_class(model, "randomForest")
+})
