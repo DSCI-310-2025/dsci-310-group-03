@@ -1,9 +1,9 @@
+source("../../R/testing.R")
 library(testthat)
 library(tibble)
 library(nnet)
 library(tidyverse)
 library(randomForest)
-source("../functions/Testing.R")
 
 test_that("testing() works with correct input", {
     # Sample training data matching real feature names and RiskLevel target
