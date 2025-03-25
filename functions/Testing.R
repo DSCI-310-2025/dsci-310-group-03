@@ -1,19 +1,22 @@
-# Generate predictions from a trained classification model
-#
-# This function loads a trained classification model from an rdd file and a test dataset. Then, 
-# uses it to generate predictions.
-# It can optionally return class probabilities if supported by the model.
-#
-# Parameters:
-# - model_file (str): Path to the saved model file
-# - test_data (DataFrame or tibble): Dataset containing the test features (target feature is removed)
-# - return_probs (logical)_ If TRUE is selected, also returns class probabilities. NOTE: Default is FALSE
-#
-# Returns:
-# - If return_probs = FALSE, returns a vector of predicted class labels
-# - If return_probs = TRUE, returns a list with two elements:
-#   - predictions: predicted class labels (Not the actual labels)
-#   - probabilities: class probability matrix
+#' Generate predictions from a trained classification model
+#'
+#' This function loads a trained classification model from an `.rds` file and uses it to
+#' make predictions on a test dataset. It can also return class probabilities but it is desabled by default.
+#'
+#' @param model_file Character. Path to the saved `.rds` model file
+#' @param test_data Data frame or tibble. Test dataset with both regular and target feature
+#' @param return_probs Logical. If TRUE, the function also returns class probabilities
+#'
+#' @return 
+#' If `return_probs = FALSE`, returns a character vector of predicted class labels.  
+#' If `return_probs = TRUE`, returns a named list with:
+#'  - predictions: A character vector of predicted class labels
+#'  - probabilities: A matrix or data frame of class probabilities
+#'
+#' @examples
+#' # predictions <- testing("model.rds", test_data)
+#' # results <- testing("model.rds", test_data, return_probs = TRUE)
+
 
 testing <- function(model_file, test_data, return_probs = FALSE) {
     if (!is.logical(return_probs) || length(return_probs) != 1) {

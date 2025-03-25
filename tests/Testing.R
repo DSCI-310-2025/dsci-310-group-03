@@ -181,4 +181,3 @@ test_that("testing function fails with invalid return_probs type", {
     unlink(model_path1)
     unlink(model_path2)
 })
-
