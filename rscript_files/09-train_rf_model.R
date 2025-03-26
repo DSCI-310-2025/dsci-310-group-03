@@ -14,7 +14,7 @@ Options:
 
 library(docopt)
 library(tidyverse)
-library(randomForest)
+source("R/training.R")
 
 opt <- docopt(doc)
 
@@ -23,11 +23,9 @@ train_rf_model <- function(train_file, model_file) {
         mutate(RiskLevel = as.factor(RiskLevel))  
 
   
-  rf_model <- randomForest(RiskLevel ~ ., data = train_data, ntree = 500, importance = TRUE)
+  rf_model <- training_rf_model(train_data)
   
-  model_file <- file.path(model_file, "rf_model.rds")
-  
-  write_rds(rf_model, model_file)
+  saveRDS(rf_model, file.path(model_file, "rf_model.rds"))
 
 }
 
