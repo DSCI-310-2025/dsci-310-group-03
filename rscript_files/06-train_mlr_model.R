@@ -14,9 +14,10 @@ Options:
 " -> doc
 
 library(tidyverse)
-library(nnet)
 library(docopt)
 library(broom)
+source("R/training.R")
+
 
 opt <- docopt(doc)
 
@@ -27,7 +28,7 @@ train_data <- train_data %>%
   mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk"))) %>%
   mutate(RiskLevel = relevel(RiskLevel, ref = "low risk"))
 
-  multinom_model <- multinom(RiskLevel ~ ., data = train_data)
+  multinom_model <- training_mlr_model(train_data)
 
   saveRDS(multinom_model, file.path(output_model, "mlr_model.rds"))
 
