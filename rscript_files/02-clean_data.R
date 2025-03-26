@@ -16,20 +16,20 @@ library(docopt)
 
 opt <- docopt(doc)
 
+source("R/cleaning.R")
+
 clean_data <- function(input, output) {
   data <- read_csv(input)
 
-  data_clean <- data %>%
-    mutate(RiskLevel = as.factor(RiskLevel)) %>% 
-    drop_na()
+  data_clean <- clean(data, RiskLevel)
 
   write_csv(data_clean, file.path(output, "cleaned_data.csv"))
 
-  data_nan <- tibble(feature = names(data), na = colSums(is.na(data)))
+  data_nan <- check_nan(data)
 
   write_csv(data_nan, file.path(output, "nan_data.csv"))
 
-  data_target_classes <- data %>% distinct(RiskLevel)
+  data_target_classes <- get_targets(data, RiskLevel)
 
   write_csv(data_target_classes, file.path(output, "target_classes.csv"))
 }
