@@ -17,7 +17,7 @@ Options:
 library(tidyverse)
 library(randomForest)
 library(docopt)
-source("functions/Testing.R")
+source("R/Testing.R")
 
 opt <- docopt(doc)
 

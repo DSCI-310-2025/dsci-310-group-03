@@ -13,9 +13,10 @@
 #'  - predictions: A character vector of predicted class labels
 #'  - probabilities: A matrix or data frame of class probabilities
 #'
+#' @export
 #' @examples
-#' # predictions <- testing("model.rds", test_data)
-#' # results <- testing("model.rds", test_data, return_probs = TRUE)
+#' testing("model.rds", test_data)
+#' testing("model.rds", test_data, return_probs = TRUE)
 
 
 testing <- function(model_file, test_data, return_probs = FALSE) {
