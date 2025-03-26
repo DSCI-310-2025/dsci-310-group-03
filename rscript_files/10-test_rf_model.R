@@ -17,16 +17,17 @@ Options:
 library(tidyverse)
 library(randomForest)
 library(docopt)
+source("R/Testing.R")
 
 opt <- docopt(doc)
 
 test_rf_model <- function(test_file, model_file, output_dir) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
-  rf_model <- readRDS(model_file)
+  rf_predictions <- testing(model_file, test_data)
 
-  test_features <- test_data %>% select(-RiskLevel)
-  rf_predictions <- predict(rf_model, newdata = test_features, type = "class")
+  #rf_model <- readRDS(model_file)
+  #rf_predictions <- predict(rf_model, newdata = test_features, type = "class")
 
   rf_accuracy <- mean(rf_predictions == test_data$RiskLevel)
 
