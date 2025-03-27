@@ -1,10 +1,11 @@
 library(testthat)
 library(dplyr)
 library(tibble)
+library(tidyr)
 
 source("../../R/cleaning.R")
 
-test_that("check_nan returns Nan summary", {
+test_that("check_na returns NA summary", {
   df <- data.frame(
     A = c(1, NA, 3),
     B = c(NA, NA, 3)
@@ -12,8 +13,8 @@ test_that("check_nan returns Nan summary", {
   result <- check_nan(df)
 
   expect_s3_class(result, "tbl_df")
-  expect_equal(result$na[result$feature == "A"], 1)
-  expect_equal(result$na[result$feature == "B"], 2)
+  expect_equal(unname(result$na[result$feature == "A"]), 1)
+  expect_equal(unname(result$na[result$feature == "B"]), 2)
 })
 
 test_that("get_targets returns unique target classes", {

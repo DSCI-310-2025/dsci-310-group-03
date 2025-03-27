@@ -3,9 +3,9 @@
 #' Check Missing Values
 #'
 #' @param data A dataframe
-#' @return A tibble of feature names and Nan counts
+#' @return A tibble of feature names and NA counts
 #' @export
-check_nan <- function(data) {
+check_na <- function(data) {
   library(tibble)
   tibble(
     feature = names(data), 
@@ -31,6 +31,7 @@ get_targets <- function(data, target) {
 #' @export
 clean <- function(data, target) {
   library(dplyr)
+  library(tidyr)
   target_col <- pull(data, {{ target }})
 
   if (is.character(target_col)) {

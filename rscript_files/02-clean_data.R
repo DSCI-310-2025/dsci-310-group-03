@@ -25,7 +25,7 @@ clean_data <- function(input, output) {
 
   write_csv(data_clean, file.path(output, "cleaned_data.csv"))
 
-  data_nan <- check_nan(data)
+  data_nan <- check_na(data)
 
   write_csv(data_nan, file.path(output, "nan_data.csv"))
 
