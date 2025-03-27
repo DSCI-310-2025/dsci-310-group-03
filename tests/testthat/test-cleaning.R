@@ -10,7 +10,7 @@ test_that("check_na returns NA summary", {
     A = c(1, NA, 3),
     B = c(NA, NA, 3)
   )
-  result <- check_nan(df)
+  result <- check_na(df)
 
   expect_s3_class(result, "tbl_df")
   expect_equal(unname(result$na[result$feature == "A"]), 1)
