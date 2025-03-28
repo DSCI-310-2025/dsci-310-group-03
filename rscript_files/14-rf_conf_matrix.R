@@ -18,6 +18,7 @@ library(tidyverse)
 library(caret)
 library(ggplot2)
 library(docopt)
+source("R/visualization.R")
 
 opt <- docopt(doc)
 
@@ -41,16 +42,7 @@ ran_for_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   write_csv(rf_table, file.path(output_csv, "rf_conf_matrix.csv"))
 
 
-  rf_visualization <- ggplot(rf_table, aes(x = True, y = Predicted, fill = Frequency)) +
-    geom_tile(color = "black") +
-    geom_text(aes(label = paste0(Frequency, "\n(", Percentage, "%)")), color = "black", size = 6) +
-    scale_fill_gradient(low = "white", high = "blue") +
-    labs(title = "Random Forest Confusion Matrix", x = "True Label", y = "Predicted Label") +
-    theme_minimal() +
-    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-
-
-  ggsave(file.path(output_img, "rf_conf_matrix.png"), rf_visualization, width = 8, height = 6, dpi = 300)
+  visualization("conf_matrix", rf_table, "rf", "outputs/images")
 }
 
 ran_for_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

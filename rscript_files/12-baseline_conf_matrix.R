@@ -18,6 +18,7 @@ library(tidyverse)
 library(caret)
 library(ggplot2)
 library(docopt)
+source("R/visualization.R")
 
 opt <- docopt(doc)
 
@@ -39,16 +40,7 @@ baseline_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   write_csv(base_table, file.path(output_csv, "baseline_conf_matrix.csv"))
 
 
-  base_visualization <- ggplot(base_table, aes(x = True, y = Predicted, fill = Frequency)) +
-    geom_tile(color = "black") +
-    geom_text(aes(label = paste0(Frequency, "\n(", Percentage, "%)")), color = "black", size = 6) +
-    scale_fill_gradient(low = "white", high = "red") +
-    labs(title = "Baseline Confusion Matrix", x = "True Label", y = "Predicted Label") +
-    theme_minimal() +
-    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-
-
-  ggsave(file.path(output_img, "baseline_conf_matrix.png"), base_visualization, width = 8, height = 6, dpi = 300)
+  visualization("conf_matrix", base_table, "baseline", "outputs/images")
 
 
 }

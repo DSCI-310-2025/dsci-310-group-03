@@ -18,6 +18,7 @@ library(tidyverse)
 library(caret)
 library(ggplot2)
 library(docopt)
+source("R/visualization.R")
 
 opt <- docopt(doc)
 
@@ -40,16 +41,7 @@ multi_lin_reg_conf_matrix <- function(test_file, pred_file, output_csv, output_i
   write_csv(mlr_table, file.path(output_csv, "mlr_conf_matrix.csv"))
 
 
-  mlr_visualization <- ggplot(mlr_table, aes(x = True, y = Predicted, fill = Frequency)) +
-    geom_tile(color = "black") +
-    geom_text(aes(label = paste0(Frequency, "\n(", Percentage, "%)")), color = "black", size = 6) +
-    scale_fill_gradient(low = "white", high = "green") +
-    labs(title = "MLR Confusion Matrix", x = "True Label", y = "Predicted Label") +
-    theme_minimal() +
-    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-
-
-  ggsave(file.path(output_img, "mlr_conf_matrix.png"), mlr_visualization, width = 8, height = 6, dpi = 300)
+  visualization("conf_matrix", mlr_table, "mlr", "outputs/images")
 }
 
 multi_lin_reg_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

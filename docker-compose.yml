@@ -10,6 +10,8 @@ services:
       - ./rscript_files:/home/rstudio/rscript_files
       - ./Makefile:/home/rstudio/Makefile
       - ./docs:/home/rstudio/docs
+      - ./R:/home/rstudio/R
+      - ./tests:/home/rstudio/tests
     environment:
       DISABLE_AUTH: "true"
     command: /init

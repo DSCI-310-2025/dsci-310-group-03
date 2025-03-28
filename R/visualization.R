@@ -85,7 +85,7 @@ visualization <- function(plot_type, input, conf_type, output_dir){
                  x = "Blood Sugar (BS)", y = "Predicted Probability") +
             theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
-        output_path <- file.path(output_dir," blood_sugar_plot.png")
+        output_path <- file.path(output_dir,"blood_sugar_plot.png")
 
     } else {
         stop("Invalid plot type. Please use 'feature_importance', 'pred_prob', or 'conf_matrix'")

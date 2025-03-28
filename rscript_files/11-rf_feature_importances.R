@@ -15,21 +15,14 @@ library(tidyverse)
 library(randomForest)
 library(vip)  
 library(docopt)
+source("R/visualization.R")
 
 opt <- docopt(doc)
 
 rf_feature_importances <- function(model_file, output_file) {
     rf_model <- readRDS(model_file)
 
-    feature_importance_plot <- vip(rf_model) +
-        labs(title = 'Random Forest Feature Importance', 
-             x = "Feature", y = "Importance") +
-        theme_minimal() +  
-        theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
-
-    output <- file.path(output_file, "rf_feature_importance.png")
-
-    ggsave(output, feature_importance_plot, width = 8, height = 6, dpi = 300)
+    visualization("feature_importance", rf_model, NULL, "outputs/images")
 
 }
 
