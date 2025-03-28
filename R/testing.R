@@ -3,7 +3,7 @@
 #' Generate predictions from a trained classification model
 #'
 #' This function loads a trained classification model from an `.rds` file and uses it to
-#' make predictions on a test dataset. It can also return class probabilities but it is desabled by default.
+#' make predictions on a test dataset. It can also return class probabilities but it is disabled by default.
 #'
 #' @param model_file Character. Path to the saved `.rds` model file
 #' @param test_data Data frame or tibble. Test dataset with both regular and target feature
