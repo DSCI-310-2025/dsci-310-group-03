@@ -41,18 +41,9 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('rmarkdown', version = '2.26', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('testthat', version = '3.1.10', repos = 'https://cran.rstudio.com/'); \
-          remotes::install_version('tinytex', version = '0.56', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('patchwork', version = '1.3.0', repos = 'https://cran.rstudio.com/');"
 
 # RUN Rscript -e "tinytex::install_tinytex()"
-
-# Install Quarto CLI
-RUN wget https://quarto.org/download/latest/quarto-linux-amd64.deb && \
-    dpkg -i quarto-linux-amd64.deb && \
-    rm quarto-linux-amd64.deb
-
-# Install TinyTeX for Quarto
-RUN quarto install tinytex
 
 #COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE Makefile /home/rstudio/
 #COPY reports /home/rstudio/reports/

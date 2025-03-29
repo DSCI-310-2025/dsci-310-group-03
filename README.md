@@ -40,7 +40,13 @@ To replicate this analysis, kindly follow the instructions below:
     ```
     docker-compose up
     ```
-3. Run analysis
+3. Install tinytex
+    - Open the terminal and run
+    ```
+    quarto install tinytex
+    ```
+
+4. Run analysis
     - Open your preferred web browser to access Jupyter Lab via http://localhost:8788
     - Run Makefile in terminal
     ```
