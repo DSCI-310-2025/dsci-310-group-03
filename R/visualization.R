@@ -79,7 +79,7 @@ visualization <- function(plot_type, input, conf_type, output_dir){
     # Predicted probabilities plot
     } else if (plot_type == "pred_prob") {
         plot <- ggplot(input, aes(x = BS, y = Probability, color = RiskLevel)) +
-            geom_smooth(method = "gam", formula = y ~ s(x, bs = 'cs'), se = FALSE, size = 1) +
+            geom_smooth(method = "gam", formula = y ~ s(x, bs = 'cs'), se = FALSE, linewidth = 1) +
             theme_minimal() +
             labs(title = "Predicted Probabilities Across Blood Sugar Levels",
                  x = "Blood Sugar (BS)", y = "Predicted Probability") +
