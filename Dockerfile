@@ -32,7 +32,7 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('broom', version = '1.0.7', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('gridExtra', version = '2.3', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('vip', version = '0.4.1', repos = 'https://cran.rstudio.com/'); \
-          remotes::install_version('docopt', version = '0.7.1', repos = 'https://cran.rstudio.com/'); \         
+          remotes::install_version('docopt', version = '0.7.1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('readr', version = '2.1.5', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('zip', version = '2.3.1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('mgcv', version = '1.9-1', repos = 'https://cran.rstudio.com/'); \
@@ -44,7 +44,7 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('tinytex', version = '0.56', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('patchwork', version = '1.3.0', repos = 'https://cran.rstudio.com/');"
 
-
+RUN Rscript -e "tinytex::install_tinytex()"
 #COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE Makefile /home/rstudio/
 #COPY reports /home/rstudio/reports/
 #COPY rscript_files /home/rstudio/rscript_files/
