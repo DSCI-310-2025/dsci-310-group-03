@@ -1,7 +1,7 @@
 # author: Mengen Liu, Roy Oh, Kim Tan Palanca, Nicolas Zhu
 # date: 2025-05-15
 
-.PHONY: all clean report
+.PHONY: all clean report tests
 
 all: data/raw/maternal_health_risk.zip \
      data/raw/maternal_health_risk_data.csv \
@@ -134,3 +134,7 @@ clean:
 	       reports/maternal_health_modeling.html \
 		   reports/maternal_health_modeling.pdf \
 		   docs/index.html
+
+# test
+tests:
+	Rscript -e 'testthat::test_dir("tests/testthat")'

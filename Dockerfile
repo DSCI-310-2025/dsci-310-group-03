@@ -40,6 +40,7 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('ggcorrplot', version = '0.1.4', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('rmarkdown', version = '2.26', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/'); \
+          remotes::install_version('testthat', version = '3.1.10', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('patchwork', version = '1.3.0', repos = 'https://cran.rstudio.com/');"
 
 
