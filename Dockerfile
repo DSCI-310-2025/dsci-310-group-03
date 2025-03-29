@@ -41,7 +41,7 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('rmarkdown', version = '2.26', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('knitr', version = '1.45', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('testthat', version = '3.1.10', repos = 'https://cran.rstudio.com/'); \
-          remotes::install.packages('tinytex', version = '0.56', repos = 'https://cran.rstudio.com/'); tinytex::install_tinytex(); \
+          remotes::install.version('tinytex', version = '0.56', repos = 'https://cran.rstudio.com/'); tinytex::install_tinytex(); \
           remotes::install_version('patchwork', version = '1.3.0', repos = 'https://cran.rstudio.com/');"
 
 
