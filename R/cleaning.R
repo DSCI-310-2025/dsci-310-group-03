@@ -6,7 +6,7 @@
 #' @return A tibble of feature names and NA counts
 #' @export
 #' 
-#' @example 
+#' @examples
 #' df <- data.frame(Age = c(25, NA, 35), BS = c(NA, NA, 8))
 #' check_na(df)
 #' A tibble: 2 × 2
