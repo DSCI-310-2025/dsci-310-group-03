@@ -31,6 +31,17 @@
 #'   
 #' @export
 #' @examples
+#' you need a folder in the current working directory called "outputs"
+#' helper_conf_table <- data.frame(
+#'                True = c("low risk", "mid risk", "high risk",
+#'                        "low risk", "mid risk", "high risk",
+#'                        "low risk", "mid risk", "high risk"),
+#'                Predicted = c("low risk", "low risk", "low risk",
+#'                                "mid risk", "mid risk", "mid risk",
+#'                                "high risk", "high risk", "high risk"),
+#'                Frequency = c(9, 17, 9, 10, 6, 9, 8, 14, 18),
+#'                Percentage = c(33.3, 45.9, 25.0, 37.0, 16.2, 25.0, 29.6, 37.8, 50.0))
+#'                
 #' visualization("conf_matrix", helper_conf_table, "mlr", "outputs")
 
 visualization <- function(plot_type, input, conf_type, output_dir){
