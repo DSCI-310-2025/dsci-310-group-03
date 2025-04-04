@@ -5,6 +5,22 @@
 #' @param data A dataframe
 #' @return A tibble of feature names and NA counts
 #' @export
+#' 
+#' @example 
+#' df <- data.frame(Age = c(25, NA, 35), BS = c(NA, NA, 8))
+#' check_na(df)
+#' A tibble: 2 × 2
+#'  feature     na
+#'  <chr>    <int>
+#'  Age          1
+#'  BS           2
+#'
+#' \dontrun{
+#' check_na(100)
+#' check_na(df['Age'])
+#' check_na(df$Age)
+#' }
+#' 
 check_na <- function(data) {
   library(tibble)
   tibble(
@@ -18,6 +34,21 @@ check_na <- function(data) {
 #' @param target The target column
 #' @return A dataframe with unique values of the target column
 #' @export
+#' 
+#' @examples 
+#' df <- data.frame(RiskLevel = c("low risk", "mid risk", "low risk", "high risk"))
+#' get_targets(df, RiskLevel)
+#'     RiskLevel
+#' 1    low risk
+#' 2    mid risk
+#' 3   high risk
+#'
+#' \dontrun{
+#' get_targets(df, "RiskLevel")
+#' get_targets(RiskLevel, df)
+#' get_targets(df["RiskLevel"])
+#' }
+#' 
 get_targets <- function(data, target) {
   library(dplyr)
   data %>% distinct({{ target }})
@@ -29,6 +60,20 @@ get_targets <- function(data, target) {
 #' @param target The target column
 #' @return A cleaned dataframe with missing values removed and the categorical target variable converted to a factor
 #' @export
+#' 
+#' @examples
+#' df <- data.frame(Age = c(25, 35, NA, 29), RiskLevel = c("high risk", NA, "low risk", "mid risk"))
+#' clean(df, RiskLevel)
+#'    Age    RiskLevel
+#' 1   25    high risk
+#' 2   29     mid risk
+#'
+#' \dontrun{
+#' clean(df, "RiskLevel")
+#' clean(RiskLevel, df)
+#' clean(df["RiskLevel"])
+#' }
+#' 
 clean <- function(data, target) {
   library(dplyr)
   library(tidyr)
