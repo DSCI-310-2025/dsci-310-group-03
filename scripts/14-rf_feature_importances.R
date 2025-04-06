@@ -4,7 +4,7 @@
 "This script generates a Random Forest feature importance plot.
 
 Usage:
-  11-rf_feature_importances.R --model=<model_file> --output=<output_file>
+  14-rf_feature_importances.R --model=<model_file> --output=<output_file>
 
 Options:
   --model=<model_file>    Path to the trained Random Forest model RDS file.

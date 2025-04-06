@@ -4,7 +4,7 @@
 "This script performs EDA and generates visualizations.
 
 Usage:
-  03-eda.R --input=<input_file> --output_img=<output_img_dir> --output_csv=<output_csv_dir>
+  04-eda.R --input=<input_file> --output_img=<output_img_dir> --output_csv=<output_csv_dir>
   
 Options:
   --input=<input_file>    Path to cleaned data CSV file

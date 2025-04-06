@@ -5,7 +5,7 @@
 across blood sugar levels using a trained multinomial logistic regression model.
 
 Usage:
-  08-graph_mlr.R --test=<test_file> --model=<model_file> --output_plot=<output_plot>
+  11-graph_mlr.R --test=<test_file> --model=<model_file> --output_plot=<output_plot>
 
 Options:
   --test=<test_file>        Path to the test dataset (CSV)

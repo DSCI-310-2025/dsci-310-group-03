@@ -6,7 +6,7 @@ and evaluates it on a test dataset by predicting class labels
 and probabilities.
 
 Usage:
-  07-test_mlr_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
+  10-test_mlr_model.R --test=<test_file> --model=<model_file> --output=<output_dir>
 
 Options:
   --test=<test_file>      Path to the test dataset (CSV).

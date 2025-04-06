@@ -5,7 +5,7 @@
 and saves the results as a CSV and PNG file.
 
 Usage:
-  13-mlr_conf_matrix.R --test=<test_file> --predictions=<pred_file> --output_csv=<output_csv> --output_img=<output_img>
+  16-mlr_conf_matrix.R --test=<test_file> --predictions=<pred_file> --output_csv=<output_csv> --output_img=<output_img>
 
 Options:
   --test=<test_file>        Path to the test dataset (CSV).

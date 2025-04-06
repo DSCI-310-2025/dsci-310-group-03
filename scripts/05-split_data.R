@@ -5,7 +5,7 @@
 Then saves them into a specified output directory.
 
 Usage:
-  04-split_data.R --input=<input_file> --output=<output_dir>
+  05-split_data.R --input=<input_file> --output=<output_dir>
 
 Options:
   --input=<input_file>   Path to the cleaned dataset

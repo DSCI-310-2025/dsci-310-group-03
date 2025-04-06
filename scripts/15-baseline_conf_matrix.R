@@ -5,7 +5,7 @@
 and saves the results as a CSV and PNG file.
 
 Usage:
-  12-baseline_conf_matrix.R --test=<test_file> --predictions=<pred_file> --output_csv=<output_csv> --output_img=<output_img>
+  15-baseline_conf_matrix.R --test=<test_file> --predictions=<pred_file> --output_csv=<output_csv> --output_img=<output_img>
 
 Options:
   --test=<test_file>        Path to the test dataset (CSV).

@@ -5,7 +5,7 @@
 logistic regression, and random forest models.
 
 Usage:
-  15-model_comparison.R --input_csv=<input_csv> --input_img=<input_img> --output_csv=<output_csv> --output_img=<output_img>
+  18-model_comparison.R --input_csv=<input_csv> --input_img=<input_img> --output_csv=<output_csv> --output_img=<output_img>
 
 Options:
   --input_csv=<input_csv>  Directory containing confusion matrix CSV files.

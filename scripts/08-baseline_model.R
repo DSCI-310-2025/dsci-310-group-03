@@ -5,7 +5,7 @@
 by predicting the most frequent class in the training data.
 
 Usage:
-  05-baseline_model.R --train=<train_file> --test=<test_file> --output=<output_dir>
+  08-baseline_model.R --train=<train_file> --test=<test_file> --output=<output_dir>
 
 Options:
   --train=<train_file>    Path to the training dataset (CSV).
