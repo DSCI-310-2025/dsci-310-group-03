@@ -2,6 +2,12 @@ library(pointblank)
 library(readr)
 library(dplyr)
 
+"This script performs data validation checks on the cleaned dataset.
+
+Usage:
+  Rscript scripts/03-clean_data_validation.R
+"
+
 clean_tbl <- file_tbl('data/processed/cleaned_data.csv')
 
 cols <- c('Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate', 'RiskLevel')

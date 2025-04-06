@@ -2,6 +2,12 @@ library(pointblank)
 library(readr)
 library(dplyr)
 
+"This script performs data validation checks on the train dataset.
+
+Usage:
+  Rscript scripts/06-train_data_validation.R
+"
+
 train_tbl <- file_tbl('data/processed/train_data.csv')
 clean_tbl <- file_tbl('data/processed/cleaned_data.csv')
 
