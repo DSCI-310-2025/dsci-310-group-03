@@ -11,9 +11,13 @@ Options:
   --output=<output_file>  Path to save the feature importance plot.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(mgcv)
+library(nnet)
 library(randomForest)
-library(vip)  
+library(vip)
 library(docopt)
 source("R/visualization.R")
 

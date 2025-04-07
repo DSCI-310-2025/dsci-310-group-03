@@ -13,9 +13,12 @@ Options:
   --output_plot=<output_plot>  Path to save the plot (e.g., images/blood_sugar_plot.png)
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(vip)
+library(mgcv)
 library(nnet)
-library(mgcv)  
 library(docopt)
 source("R/visualization.R")
 
