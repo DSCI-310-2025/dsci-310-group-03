@@ -48,6 +48,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+# Shell history
+.sh_history
+
 .config/
 .local/
 .ipynb_checkpoints/
