@@ -66,7 +66,7 @@ The html file can be found inside the docs folder
     - corrplot (version = 0.95): Visualization of correlation matrices
     - nnet (version = 7.3-20): Neural networks and multinomial logistic regression
     - caret (version = 7.0-1): Streamlined machine learning model training
-    - randomForest (version = 7.4-1.2): Random forest implementation for classification and regression
+    - randomForest (version = 4.7-1.2): Random forest implementation for classification and regression
     - broom (version = 1.0.7): Convert model outputs to tidy data frames
     - gridExtra (version = 2.3): Arrange multiple ggplot2 plots
     - vip (version = 0.4.1): Visualize variable importance for ML models
@@ -77,6 +77,7 @@ The html file can be found inside the docs folder
     - ggcorrplot (version = 0.1.4): Correlation matrix visualization using ggplot2
     - rmarkdown (version = 2.26): Dynamic report generation with R Markdown
     - knitr (version = 1.45): Convert R Markdown to reports with embedded R code
+    - patchwork (version = 1.3.0): Combine multiple ggplot2 plots
     - testthat (version = 3.1.10): Unit testing framework for R
 
 ## Licenses
