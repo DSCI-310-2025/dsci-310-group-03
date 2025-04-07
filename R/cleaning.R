@@ -83,5 +83,7 @@ clean <- function(data, target) {
     data <- data %>%
     mutate({{ target }} := as.factor({{ target }})) 
   }
-  data %>% drop_na()
+  data %>% 
+    drop_na() %>%
+    distinct()
 }

@@ -28,26 +28,27 @@ test_that("get_targets returns unique target classes", {
   expect_equal(sort(result$RiskLevel), c("high", "low", "mid"))
 })
 
-test_that("clean drops NAs and converts character target to factor", {
+test_that("clean drops NAs, removes duplicates, and converts character target to factor", {
   df <- data.frame(
-    Age = c(25, NA, 35),
-    RiskLevel = c("low", "mid", "high")
+    Age = c(25, NA, 35, 25),
+    RiskLevel = c("low", "mid", "high", "low"),
+    stringsAsFactors = FALSE
   )
 
   cleaned <- clean(df, RiskLevel)
 
-  expect_equal(nrow(cleaned), 2) 
+  expect_equal(nrow(cleaned), 2)  
   expect_s3_class(cleaned$RiskLevel, "factor")
 })
 
-test_that("clean does not convert non-categorical targets", {
+test_that("clean does not convert non-categorical target but still drops NAs and duplicates", {
   df <- data.frame(
-    Age = c(25, 30, 35),
-    RiskScore = c(1, 2, 3)
+    Age = c(25, 30, 35, 25),
+    RiskScore = c(1, 2, 3, 1)
   )
 
   cleaned <- clean(df, RiskScore)
 
   expect_equal(nrow(cleaned), 3) 
-  expect_type(cleaned$RiskScore, "double") 
+  expect_type(cleaned$RiskScore, "double")
 })
