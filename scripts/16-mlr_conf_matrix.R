@@ -16,6 +16,7 @@ Options:
 
 library(readr)
 library(tidyr)
+library(dplyr)
 library(vip)
 library(mgcv)
 library(nnet)

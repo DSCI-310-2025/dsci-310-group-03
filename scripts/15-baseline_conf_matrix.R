@@ -15,6 +15,7 @@ Options:
 " -> doc
 
 library(readr)
+library(dplyr)
 library(tidyr)
 library(vip)
 library(mgcv)

@@ -2,7 +2,7 @@ source("../../R/testing.R")
 library(testthat)
 library(tibble)
 library(nnet)
-library(tidyverse)
+library(dplyr)
 library(randomForest)
 
 test_that("testing() works with correct input", {
