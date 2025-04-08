@@ -19,7 +19,9 @@ execute:
 ---
 
 ```{r}
-library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(readr)
 library(corrplot)
 library(nnet)
 library(caret)

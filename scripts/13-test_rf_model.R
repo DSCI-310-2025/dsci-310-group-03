@@ -15,6 +15,7 @@ Options:
 " -> doc
 
 library(readr)
+library(dplyr)
 library(tibble)
 library(randomForest)
 library(docopt)
