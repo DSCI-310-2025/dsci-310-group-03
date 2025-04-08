@@ -12,9 +12,12 @@ Options:
   --output_csv=<output_csv_dir>  Directory to save summary CSV
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(tibble)
 library(ggplot2)
-library(ggcorrplot)  
+library(ggcorrplot)
 library(docopt)
 
 opt <- docopt(doc)

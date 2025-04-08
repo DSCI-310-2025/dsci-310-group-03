@@ -14,7 +14,7 @@ Options:
   --output_img=<output_img> Path to save the accuracy bar plot PNG file.
 " -> doc
 
-library(tidyverse)
+library(readr)
 library(ggplot2)
 library(docopt)
 library(png)

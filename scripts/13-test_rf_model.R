@@ -14,7 +14,8 @@ Options:
   --output=<output_dir>   Directory to save the predictions and probabilities.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tibble)
 library(randomForest)
 library(docopt)
 source("R/Testing.R")

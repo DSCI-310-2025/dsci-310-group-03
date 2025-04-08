@@ -13,7 +13,9 @@ Options:
   --output=<output_dir>   Directory to save predictions and accuracy files.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tibble)
+library(dplyr)
 library(docopt)
 
 opt <- docopt(doc)

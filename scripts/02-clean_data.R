@@ -11,7 +11,7 @@ Options:
   --output=<output_file>   Path to save cleaned data CSV file
 " -> doc
 
-library(tidyverse)
+library(readr)
 library(docopt)
 
 opt <- docopt(doc)

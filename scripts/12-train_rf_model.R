@@ -13,7 +13,10 @@ Options:
 " -> doc
 
 library(docopt)
-library(tidyverse)
+library(readr)
+library(dplyr)
+library(nnet)
+library(randomForest)
 source("R/training.R")
 
 opt <- docopt(doc)

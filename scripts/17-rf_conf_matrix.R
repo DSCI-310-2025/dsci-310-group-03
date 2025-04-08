@@ -14,7 +14,11 @@ Options:
   --output_img=<output_img> Path to save the confusion matrix PNG file.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tidyr)
+library(vip)
+library(mgcv)
+library(nnet)
 library(caret)
 library(ggplot2)
 library(docopt)

@@ -13,7 +13,8 @@ Options:
   --output_csv=<output_csv_dir>  Directory to save model summary CSV.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(dplyr)
 library(docopt)
 library(broom)
 source("R/training.R")

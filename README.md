@@ -40,15 +40,15 @@ To replicate this analysis, kindly follow the instructions below:
     ```
     docker-compose up
     ```
-3. Install tinytex
-    - Open the terminal and run
+3. Open container
+    - Open your preferred web browser to access Jupyter Lab via http://localhost:8787
+4. Install tinytex
+    - In the terminal of the RStudio container run:
     ```
     quarto install tinytex
     ```
-
-4. Run analysis
-    - Open your preferred web browser to access Jupyter Lab via http://localhost:8788
-    - Run Makefile in terminal
+5. Run analysis
+- Run Makefile in terminal
     ```
     make all
     ```
@@ -57,25 +57,28 @@ The html file can be found inside the docs folder
 ## List of Dependencies
 - R version: 4.4.2
 - R packages:
-    - tidyverse (version = 2.0.0)
-    - ggplot2 (version = 3.5.1)
-    - lattice (version = 0.22-6)
-    - corrplot (version = 0.95)
-    - nnet (version = 7.3-20)
-    - caret (version = 7.0-1)
-    - randomForest (version = 7.4-1.2)
-    - broom (version = 1.0.7)
-    - gridExtra (version = 2.3)
-    - vip (version = 0.4.1)
-    - docopt (version = 0.7.1)
-    - readr (version = 2.1.5)
-    - zip (version = 2.3.1)
-    - mgcv (version = 1.9-1)
-    - gridExtra (version = 2.3)
-    - png (version = 0.1-8)
-    - ggcorrplot (version = 0.1.4)
-    - rmarkdown (version = 2.26)
-    - knitr (version = 1.45)
+    - readr (version = 2.1.4): CSV and tabular data reading
+    - dplyr (version = 1.1.0): Data manipulation
+    - tidyr (version = 1.3.0): Tools for tidying and reshaping data
+    - tibble (version = 3.1.8): User-friendly data frames
+    - ggplot2 (version = 3.5.1): Grammar of graphics for creating visualizations
+    - lattice (version = 0.22-6): Trellis graphics for multivariate data
+    - corrplot (version = 0.95): Visualization of correlation matrices
+    - nnet (version = 7.3-20): Neural networks and multinomial logistic regression
+    - caret (version = 7.0-1): Streamlined machine learning model training
+    - randomForest (version = 4.7-1.2): Random forest implementation for classification and regression
+    - broom (version = 1.0.7): Convert model outputs to tidy data frames
+    - gridExtra (version = 2.3): Arrange multiple ggplot2 plots
+    - vip (version = 0.4.1): Visualize variable importance for ML models
+    - docopt (version = 0.7.1): Command-line argument parser using a help message
+    - zip (version = 2.3.1): Create, list, and unzip zip archives
+    - mgcv (version = 1.9-1): Generalized additive models and smoothers
+    - png (version = 0.1-8): Read and write PNG images
+    - ggcorrplot (version = 0.1.4): Correlation matrix visualization using ggplot2
+    - rmarkdown (version = 2.26): Dynamic report generation with R Markdown
+    - knitr (version = 1.45): Convert R Markdown to reports with embedded R code
+    - patchwork (version = 1.3.0): Combine multiple ggplot2 plots
+    - testthat (version = 3.1.10): Unit testing framework for R
 
 ## Licenses
 - This project is licensed under the MIT License. Kindly refer to [LICENSE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.

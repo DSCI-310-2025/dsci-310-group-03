@@ -14,8 +14,11 @@ Options:
   --output=<output_dir>   Directory to save the predictions and probabilities.
 " -> doc
 
-library(tidyverse)
+library(readr)
+library(tibble)
+library(dplyr)
 library(nnet)
+library(caret)
 library(broom)
 library(docopt)
 source("R/Testing.R")

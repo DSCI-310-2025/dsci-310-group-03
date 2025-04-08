@@ -12,7 +12,7 @@ Options:
   --output=<output_dir>  Directory to save train/test datasets
 " -> doc
 
-library(tidyverse)
+library(readr)
 library(caret)
 library(docopt)
 
