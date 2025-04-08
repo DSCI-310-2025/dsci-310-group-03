@@ -24,14 +24,14 @@ test_baseline_model <- function(train_file, test_file, output_dir) {
   train_data <- read_csv(train_file, show_col_types = FALSE)
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
-
+  # Identify the most frequent class in the training set
   majority_class <- names(sort(table(train_data$RiskLevel), decreasing = TRUE))[1]
 
-
+  # Predict the majority class for all test samples
   majority_predictions <- factor(rep(majority_class, nrow(test_data)), 
                                  levels = levels(as.factor(test_data$RiskLevel)))
 
-
+  # Calculate and display accuracy
   majority_accuracy <- mean(majority_predictions == test_data$RiskLevel)
   message("Majority Class Baseline Accuracy: ", round(majority_accuracy, 7))
 

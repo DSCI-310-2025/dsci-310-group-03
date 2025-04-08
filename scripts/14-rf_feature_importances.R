@@ -26,6 +26,7 @@ opt <- docopt(doc)
 rf_feature_importances <- function(model_file, output_file) {
     rf_model <- readRDS(model_file)
 
+    # Use visualization.R function to create feature importances plot
     visualization("feature_importance", rf_model, NULL, "outputs/images")
 
 }

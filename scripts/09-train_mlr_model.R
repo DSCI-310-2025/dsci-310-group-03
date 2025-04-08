@@ -24,11 +24,11 @@ opt <- docopt(doc)
 
 train_mlr_model <- function(train, output_model, output_csv) {
   train_data <- read_csv(train)
-
+  # Format RiskLevel as a factor with a specified order and set "low risk" as the reference level
 train_data <- train_data %>%
   mutate(RiskLevel = factor(RiskLevel, levels = c("low risk", "mid risk", "high risk"))) %>%
   mutate(RiskLevel = relevel(RiskLevel, ref = "low risk"))
-
+  # Train the multinomial logistic regression model using custom training function
   multinom_model <- training_mlr_model(train_data)
 
   saveRDS(multinom_model, file.path(output_model, "mlr_model.rds"))

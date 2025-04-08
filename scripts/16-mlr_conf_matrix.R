@@ -31,11 +31,14 @@ multi_lin_reg_conf_matrix <- function(test_file, pred_file, output_csv, output_i
   test_data <- read_csv(test_file, show_col_types = FALSE)
   pred_data <- read_csv(pred_file, show_col_types = FALSE)
 
+  # Compute the confusion matrix comparing predicted vs. actual labels
   mlr_conf_matrix <- confusionMatrix(as.factor(pred_data$Predicted_Class), as.factor(test_data$RiskLevel))
 
+  # Convert the confusion matrix to a data frame for manipulation
   mlr_table <- as.data.frame(mlr_conf_matrix$table)
   colnames(mlr_table) <- c("True", "Predicted", "Frequency")
 
+  # Add factor levels and calculate percentage within each True class
   mlr_table <- mlr_table %>%
     mutate(True = factor(True, levels = c("low risk", "mid risk", "high risk")),
     Predicted = factor(Predicted, levels = c("low risk", "mid risk", "high risk"))) %>%
