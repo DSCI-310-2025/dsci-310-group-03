@@ -7,7 +7,7 @@ services:
       - ./data:/home/rstudio/data
       - ./outputs:/home/rstudio/outputs
       - ./reports:/home/rstudio/reports
-      - ./rscript_files:/home/rstudio/rscript_files
+      - ./scripts:/home/rstudio/scripts
       - ./Makefile:/home/rstudio/Makefile
       - ./docs:/home/rstudio/docs
       - ./R:/home/rstudio/R
