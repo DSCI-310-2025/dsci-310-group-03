@@ -26,8 +26,10 @@ opt <- docopt(doc)
 test_rf_model <- function(test_file, model_file, output_dir) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
 
+  # Generate predictions using the saved Random Forest model
   rf_predictions <- testing(model_file, test_data)
 
+  # Calculate prediction accuracy
   rf_accuracy <- mean(rf_predictions == test_data$RiskLevel)
 
   message("Random Forest Model Accuracy: ", round(rf_accuracy, 7))

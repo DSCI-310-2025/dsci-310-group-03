@@ -27,7 +27,7 @@ eda <- function(input, output_img, output_csv) {
 
   data_clean$RiskLevel <- factor(data_clean$RiskLevel, levels = c("low risk", "mid risk", "high risk"))
 
-
+  # Compute summary statistics (min, max, mean, median, sd) for numeric columns
   summary_df <- data_clean %>% 
     summarise(across(where(is.numeric), list(
       min = \(x) min(x, na.rm = TRUE), 
@@ -40,6 +40,7 @@ eda <- function(input, output_img, output_csv) {
 
   write_csv(summary_df, file.path(output_csv, "eda_summary.csv"))
 
+  # Create and save boxplot of Age distribution by RiskLevel
   bp <- ggplot(data_clean, aes(x = RiskLevel, y = Age, fill = RiskLevel)) +
     geom_boxplot() +
     theme_minimal() +
@@ -52,8 +53,10 @@ eda <- function(input, output_img, output_csv) {
     mutate(RiskLevel_numeric = as.numeric(RiskLevel)) %>%
     select(-RiskLevel)
    
+  # Compute correlation matrix
   cor_matrix <- cor(data_numeric, use = "complete.obs")
 
+  # Convert correlation matrix to long format and sort by strongest relationships
   cor_values <- cor_matrix %>%
     as.data.frame() %>%
     rownames_to_column("Feature_1") %>%
@@ -63,6 +66,7 @@ eda <- function(input, output_img, output_csv) {
 
   write_csv(cor_values, file.path(output_csv, "correlation_values.csv"))
 
+  # Create and save circular correlation heatmap without labels
   cor_plot_ellipses <- ggcorrplot(cor_matrix, 
                                   method = "circle", 
                                   type = "upper", 

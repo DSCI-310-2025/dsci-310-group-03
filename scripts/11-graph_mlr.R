@@ -32,17 +32,18 @@ graph_blood_sugar <- function(test_file, model_file, output_plot) {
     test_data <- read_csv(test_file)
     multinom_model <- readRDS(model_file)
 
-
+    # Predict class probabilities for each test observation
     pred_probs <- predict(multinom_model, newdata = test_data, type = "probs")
     prob_data <- as.data.frame(pred_probs)
 
+    # Add the Blood Sugar (BS) values from the test data for plotting
     prob_data$BS <- test_data$BS  
 
 
     prob_long <- pivot_longer(prob_data, cols = c("low risk", "mid risk", "high risk"), 
                               names_to = "RiskLevel", values_to = "Probability")
 
-
+    # Use visualization.R function to create predicted probabilities plot
     visualization("pred_prob", prob_long, NULL, "outputs/images")
     
 }

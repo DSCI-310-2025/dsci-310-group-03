@@ -31,11 +31,14 @@ ran_for_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
   test_data <- read_csv(test_file, show_col_types = FALSE)
   pred_data <- read_csv(pred_file, show_col_types = FALSE)
 
+  # Compute the confusion matrix comparing predicted vs. actual labels
   rf_conf_matrix <- confusionMatrix(as.factor(pred_data$Predicted_Class), as.factor(test_data$RiskLevel))
 
+  # Convert the confusion matrix to a data frame for manipulation
   rf_table <- as.data.frame(rf_conf_matrix$table)
   colnames(rf_table) <- c("True", "Predicted", "Frequency")
 
+  # Add factor levels and calculate percentage within each True class
   rf_table <- rf_table %>%
     mutate(True = factor(True, levels = c("low risk", "mid risk", "high risk")),
     Predicted = factor(Predicted, levels = c("low risk", "mid risk", "high risk"))) %>%
