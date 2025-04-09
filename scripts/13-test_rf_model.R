@@ -19,7 +19,7 @@ library(dplyr)
 library(tibble)
 library(randomForest)
 library(docopt)
-source("R/Testing.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 

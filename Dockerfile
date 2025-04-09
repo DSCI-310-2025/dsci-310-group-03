@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y \
     libudunits2-dev \
     && apt-get clean
 
-# RUN Rscript -e "install.packages('tidyverse', repos = 'https://cran.rstudio.com/')"
 
 RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('readr', version = '2.1.4', repos = 'https://cran.rstudio.com/'); \
@@ -46,15 +45,6 @@ RUN Rscript -e "install.packages(c('renv', 'remotes'), repos = 'https://cran.rst
           remotes::install_version('pointblank', version = '0.12.1', repos = 'https://cran.rstudio.com/'); \
           remotes::install_version('patchwork', version = '1.3.0', repos = 'https://cran.rstudio.com/');"
 
-# RUN Rscript -e "tinytex::install_tinytex()"
-
-#COPY README.md CODE_OF_CONDUCT.md CONTRIBUTING.md CC0-LICENSE MIT-LICENSE Makefile /home/rstudio/
-#COPY reports /home/rstudio/reports/
-#COPY rscript_files /home/rstudio/rscript_files/
-#COPY data /home/rstudio/data/
-#COPY outputs /home/rstudio/outputs/
-#COPY docs /home/rstudio/docs
-
-#RUN chown -R rstudio:rstudio /home/rstudio/data /home/rstudio/outputs /home/rstudio/reports /home/rstudio/docs /home/rstudio/rscript_files/
-#RUN chmod -R 777 /home/rstudio/data /home/rstudio/outputs /home/rstudio/reports /home/rstudio/docs /home/rstudio/rscript_files/
+RUN Rscript -e "remotes::install_version('devtools', version = '2.4.5', repos = 'https://cran.rstudio.com/'); \
+                devtools::install_github('DSCI-310-2025/maternalhealthtools')"
 

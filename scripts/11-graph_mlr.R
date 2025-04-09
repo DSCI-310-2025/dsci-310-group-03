@@ -20,7 +20,7 @@ library(vip)
 library(mgcv)
 library(nnet)
 library(docopt)
-source("R/visualization.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 
@@ -44,8 +44,7 @@ graph_blood_sugar <- function(test_file, model_file, output_plot) {
                               names_to = "RiskLevel", values_to = "Probability")
 
     # Use visualization.R function to create predicted probabilities plot
-    visualization("pred_prob", prob_long, NULL, "outputs/images")
-    
+    plot_pred_prob(prob_long, 'outputs/images')    
 }
 
 graph_blood_sugar(opt$test, opt$model, opt$output_plot)

@@ -17,7 +17,7 @@ library(readr)
 library(dplyr)
 library(nnet)
 library(randomForest)
-source("R/training.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 

@@ -1,0 +1,4 @@
+Model,Accuracy
+Baseline,51.68539
+Multinomial Logistic Regression,70.78652
+Random Forest,65.16854

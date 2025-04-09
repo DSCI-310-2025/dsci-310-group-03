@@ -23,7 +23,7 @@ library(nnet)
 library(caret)
 library(ggplot2)
 library(docopt)
-source("R/visualization.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 
@@ -49,8 +49,7 @@ ran_for_conf_matrix <- function(test_file, pred_file, output_csv, output_img) {
 
   write_csv(rf_table, file.path(output_csv, "rf_conf_matrix.csv"))
 
-
-  visualization("conf_matrix", rf_table, "rf", "outputs/images")
+  plot_conf_matrix(rf_table, 'rf', 'outputs/images')
 }
 
 ran_for_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

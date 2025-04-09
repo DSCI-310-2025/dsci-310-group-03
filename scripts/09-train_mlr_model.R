@@ -17,8 +17,7 @@ library(readr)
 library(dplyr)
 library(docopt)
 library(broom)
-source("R/training.R")
-
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 
