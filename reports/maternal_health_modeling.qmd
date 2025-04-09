@@ -129,7 +129,14 @@ Correlation Matrix<sup>2</sup>
 
 ```{r}
 corr_vals <- read_csv('../outputs/csv/correlation_values.csv')
-highest_corr <- corr_vals$Correlation[1]
+
+risk_corrs <- corr_vals %>%
+  filter(Feature_1 == "RiskLevel_numeric" | Feature_2 == "RiskLevel_numeric")
+
+highest_corr_row <- risk_corrs %>%
+  slice_max(abs(Correlation), n = 1)
+
+highest_corr <- highest_corr_row$Correlation[1]
 ```
 
 All of the variables have a positive correlation with RiskLevel, indicating that increases in these variables generally correspond to a higher maternal health risk. BS (Blood Sugar level) has the strongest correlation of `r highest_corr`, suggesting it is likely to be the most influential factor. We thought age would have a stronger correlation with RiskLevel, however, systolic blood pressure and diastolic blood pressure seems to have a stronger correlation with RiskLevel than age. Additionally, there are no signs of concern for multicollinearity issues in this dataset.
