@@ -23,7 +23,7 @@ library(nnet)
 library(caret)
 library(ggplot2)
 library(docopt)
-source("R/visualization.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 
@@ -48,8 +48,7 @@ multi_lin_reg_conf_matrix <- function(test_file, pred_file, output_csv, output_i
 
   write_csv(mlr_table, file.path(output_csv, "mlr_conf_matrix.csv"))
 
-
-  visualization("conf_matrix", mlr_table, "mlr", "outputs/images")
+  plot_conf_matrix(mlr_table, 'mlr', 'outputs/images')
 }
 
 multi_lin_reg_conf_matrix(opt$test, opt$predictions, opt$output_csv, opt$output_img)

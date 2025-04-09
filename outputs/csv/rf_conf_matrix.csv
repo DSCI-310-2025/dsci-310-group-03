@@ -1,0 +1,10 @@
+True,Predicted,Frequency,Percentage
+high risk,high risk,18,64.3
+low risk,high risk,0,0
+mid risk,high risk,4,22.2
+high risk,low risk,2,7.1
+low risk,low risk,35,81.4
+mid risk,low risk,9,50
+high risk,mid risk,8,28.6
+low risk,mid risk,8,18.6
+mid risk,mid risk,5,27.8

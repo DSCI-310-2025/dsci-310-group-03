@@ -21,7 +21,7 @@ library(nnet)
 library(caret)
 library(broom)
 library(docopt)
-source("R/Testing.R")
+library(maternalhealthtools)
 
 opt <- docopt(doc)
 

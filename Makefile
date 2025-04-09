@@ -36,7 +36,6 @@ all: data/raw/maternal_health_risk.zip \
 	 reports/maternal_health_modeling.html \
 	 reports/maternal_health_modeling.pdf \
 	 docs/index.html \
-	 tests \
 	 remove_rplots
 
 # load data

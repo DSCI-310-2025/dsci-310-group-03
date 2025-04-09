@@ -13,10 +13,9 @@ Options:
 
 library(readr)
 library(docopt)
+library(maternalhealthtools)
 
 opt <- docopt(doc)
-
-source("R/cleaning.R")
 
 clean_data <- function(input, output) {
   data <- read_csv(input)
