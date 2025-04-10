@@ -79,6 +79,7 @@ The html file can be found inside the docs folder
     - knitr (version = 1.45): Convert R Markdown to reports with embedded R code
     - patchwork (version = 1.3.0): Combine multiple ggplot2 plots
     - testthat (version = 3.1.10): Unit testing framework for R
+    - devtools (version = 2.4.5): Install GitHub package
 
 ## Licenses
 - This project is licensed under the MIT License. Kindly refer to [LICENSE.md](https://github.com/DSCI-310-2025/dsci-310-group-03/blob/main/LICENSE.md) for more.
