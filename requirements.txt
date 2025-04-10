@@ -1,0 +1,24 @@
+
+readr (version = 2.1.4): CSV and tabular data reading  
+dplyr (version = 1.1.0): Data manipulation  
+tidyr (version = 1.3.0): Tools for tidying and reshaping data  
+tibble (version = 3.1.8): User-friendly data frames  
+ggplot2 (version = 3.5.1): Grammar of graphics for creating visualizations  
+lattice (version = 0.22-6): Trellis graphics for multivariate data  
+corrplot (version = 0.95): Visualization of correlation matrices  
+nnet (version = 7.3-20): Neural networks and multinomial logistic regression  
+caret (version = 7.0-1): Streamlined machine learning model training  
+randomForest (version = 4.7-1.2): Random forest implementation for classification and regression  
+broom (version = 1.0.7): Convert model outputs to tidy data frames  
+gridExtra (version = 2.3): Arrange multiple ggplot2 plots  
+vip (version = 0.4.1): Visualize variable importance for ML models  
+docopt (version = 0.7.1): Command-line argument parser using a help message  
+zip (version = 2.3.1): Create, list, and unzip zip archives  
+mgcv (version = 1.9-1): Generalized additive models and smoothers  
+png (version = 0.1-8): Read and write PNG images  
+ggcorrplot (version = 0.1.4): Correlation matrix visualization using ggplot2  
+rmarkdown (version = 2.26): Dynamic report generation with R Markdown  
+knitr (version = 1.45): Convert R Markdown to reports with embedded R code  
+patchwork (version = 1.3.0): Combine multiple ggplot2 plots  
+testthat (version = 3.1.10): Unit testing framework for R  
+devtools (version = 2.4.5): Install GitHub package
