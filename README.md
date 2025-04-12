@@ -54,6 +54,8 @@ To replicate this analysis, kindly follow the instructions below:
     ```
 The html file can be found inside the docs folder
 
+6. Optional: If the analysis does not run completely, first run `make clean` and then run `make all` again.
+
 ## List of Dependencies
 - R version: 4.4.2
 - R packages:
